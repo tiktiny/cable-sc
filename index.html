@@ -219,6 +219,15 @@ main{flex:1;display:flex;flex-direction:column;width:100%}
   body{background:#fff} .inputs{grid-template-columns:1fr 1fr 1fr}
   .card{break-inside:avoid}
 }
+
+html.pdfmode{direction:ltr} html.pdfmode body{direction:rtl;width:800px;min-width:800px;overflow:visible}
+html.pdfmode .hdr-btns{display:none!important}
+html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width:800px;box-shadow:none} html.pdfinst #ovInst *{max-height:none!important;overflow:visible!important}
+#pdfDlg{position:fixed;inset:0;background:rgba(20,26,38,.45);display:none;align-items:center;justify-content:center;z-index:300}
+#pdfDlg.on{display:flex}
+#pdfDlg .box{background:#fff;border-radius:14px;padding:20px 18px;width:min(92vw,360px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#pdfDlg .box p{margin:0 0 14px;font-size:15px}
+#pdfDlg .box button{width:100%;margin-top:8px;padding:12px;font-size:16px}
 </style>
 <!-- מונה כניסות פרטי (GoatCounter) – הנתונים גלויים רק לבעל החשבון -->
 <script data-goatcounter="https://tiktin-apps.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -231,7 +240,7 @@ main{flex:1;display:flex;flex-direction:column;width:100%}
       <div>
         <h1 class="app-heading"><img class="panel-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSI4IiB5PSI0IiB3aWR0aD0iNDgiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjZTdlZmZmIiBzdHJva2U9IiMxODM0NGUiIHN0cm9rZS13aWR0aD0iMyIvPjxyZWN0IHg9IjE0IiB5PSIxMiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjMxIiByeD0iMyIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMTggMjFoMjhNMTggMzNoMjgiIHN0cm9rZT0iI2E1YjRjNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMTgiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PHJlY3QgeD0iMTgiIHk9IjI4IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIyOCIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMjgiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSI1MSIgcj0iMiIgZmlsbD0iIzFhN2Y0YiIvPjxwYXRoIGQ9Ik0zMyA0NmwtNSA3aDVsLTIgNSA4LTloLTVsMi0zeiIgZmlsbD0iI2M1MjMzMCIvPjxyZWN0IHg9IjQ1IiB5PSI0NyIgd2lkdGg9IjMiIGhlaWdodD0iNyIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48L3N2Zz4=" alt="לוח חשמל">חישוב כבלים, גידי הארקה וזרמי קצר</h1>
         <p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p>
-        <div class="app-version">גרסה V15 · עלתה לרשת 30/09/2026<span id="savedInfo"></span></div>
+        <div class="app-version">גרסה V17 · עלתה לרשת 20/10/2026<span id="savedInfo"></span></div>
       </div>
     </div>
     <div class="hdr-btns">
@@ -239,7 +248,9 @@ main{flex:1;display:flex;flex-direction:column;width:100%}
       <button id="btnReset" title="איפוס כל השדות לערכי ברירת המחדל">איפוס טופס</button>
       <button id="btnInstTop" title="שיטות ההתקנה בחישוב – איור מהתקנות והדמיות">שיטות התקנה</button>
       <button id="btnScheme" title="הזנת סכמה עם אורכים וזרמים – בפיתוח">סכמה <span class="badge">בפיתוח</span></button>
-      <button onclick="window.print()" title="הדפסה או שמירה כ-PDF">הדפסה / PDF</button>
+      <button id="btnXlsx" type="button" title="ייצוא נתוני הקלט והתוצאות לקובץ Excel">ייצוא Excel</button>
+      <button id="btnDoc" type="button" title="ייצוא נתוני הקלט והתוצאות לקובץ Word">ייצוא Word</button>
+      <button id="btnPdf" type="button" title="הדפסה או שמירה כ-PDF (בטלפון – יוצר קובץ PDF לשמירה או שיתוף)">הדפסה / PDF</button>
     </div>
   </div>
 </header>
@@ -261,7 +272,7 @@ main{flex:1;display:flex;flex-direction:column;width:100%}
         <option value="630">630 kVA</option>
       </select>
       <div id="w630" class="note warn keep" style="display:none">
-        <b>אזהרה:</b> שנאי 630 kVA נותן זרם קצר נמוך יותר (כ-15.2 kA לעומת כ-24.1 kA) – חישוב לא שמרני. יש לוודא מול חח״י שהתחנה אכן 630 kVA ולא תוגדל בעתיד.
+        <b>אזהרה:</b> שנאי 630 kVA נותן זרם קצר נמוך יותר (כ-16.5 kA לעומת כ-26.2 kA) – חישוב לא שמרני. יש לוודא מול חח״י שהתחנה אכן 630 kVA ולא תוגדל בעתיד.
         <div style="margin-top:6px"><button type="button" id="ok630" class="primary">אני מאשר – לחשב לפי 630</button> <button type="button" id="cancel630">חזרה ל-1000</button></div>
       </div>
       <div class="hint">זרם הקצר מחושב לפי IEC 60909 בצד המחמיר: מקדם מתח c = 1.1, עכבת שנאי לפי uk = 6% ו-Pk, בהזנחת עכבת רשת המתח הגבוה.</div>
@@ -1055,6 +1066,167 @@ $('btnSave').addEventListener('click',saveForm);
     }catch(e){} } }
 calc();
 
+</script>
+<div id="pdfDlg"><div class="box"><p id="pdfMsg">מכין קובץ…</p><button type="button" id="pdfGo" class="primary" style="display:none">שמירה / שיתוף של הקובץ</button><button type="button" id="pdfClose">סגירה</button></div></div>
+<script>
+/* ===== הדפסה / PDF – במחשב: חלון הדפסה; בטלפון/טאבלט: יצירת קובץ PDF ושמירה או שיתוף ===== */
+(function(){
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  const LIBS=[
+    ['jspdf',['https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js','https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js']],
+    ['htmlToImage',['https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js','https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js']]];
+  let libP=null, pdfFile=null;
+  const addScript=src=>new Promise((ok,bad)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=bad; document.head.appendChild(s); });
+  const loadLib=()=> libP || (libP=(async()=>{ for(const [g,urls] of LIBS){ if(window[g]) continue; let done=false;
+      for(const u of urls){ try{ await addScript(u); if(window[g]){done=true;break;} }catch(e){} }
+      if(!done) throw new Error('lib '+g); } })().catch(e=>{libP=null;throw e;}));
+  const dlg=document.getElementById('pdfDlg'), msg=document.getElementById('pdfMsg'), go=document.getElementById('pdfGo');
+  const fname=()=>{ const d=new Date(), p=n=>String(n).padStart(2,'0'); return `חישוב כבלים וזרם קצר ${p(d.getDate())}-${p(d.getMonth()+1)}-${d.getFullYear()}.pdf`; };
+  const skip=el=> !(el.id==='pdfDlg' || el.id==='toast' || (el.classList && (el.classList.contains('hdr-btns')||el.classList.contains('noprint')||el.classList.contains('helpbtn')||el.classList.contains('tt-clear-btn')||el.classList.contains('toast'))));
+  async function makePdf(){
+    pdfFile=null; go.style.display='none'; msg.textContent='מכין קובץ PDF…'; dlg.classList.add('on');
+    const root=document.documentElement;
+    try{
+      await loadLib();
+      const inst=document.getElementById('ovInst'), instOn=inst && inst.classList.contains('on');
+      window.scrollTo(0,0); root.classList.add('pdfmode'); if(instOn) root.classList.add('pdfinst');
+      const closedDet=[...document.querySelectorAll('details:not([open])')]; closedDet.forEach(d=>d.open=true);
+      await new Promise(r=>setTimeout(r,150));
+      const src = instOn ? (inst.querySelector('.ip-box')||inst) : document.body;
+      const top0=src.getBoundingClientRect().top;
+      const cuts=[...src.querySelectorAll('.card,.kpi,tr,.note,.ip-card')].map(el=>el.getBoundingClientRect().bottom-top0).filter(v=>v>0).sort((a,b)=>a-b);
+      const W = src.scrollWidth, H = src.scrollHeight;
+      const o={backgroundColor:'#ffffff', pixelRatio:2, width:W, height:H, filter:skip, style:{margin:'0'}};
+      await htmlToImage.toCanvas(src,o);            // ספארי: הרצה ראשונה טוענת תמונות
+      const cv = await htmlToImage.toCanvas(src,o);
+      root.classList.remove('pdfmode','pdfinst'); closedDet.forEach(d=>d.open=false);
+      const {jsPDF}=window.jspdf, pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+      const M=8, pw=210-2*M, ph=297-2*M, pxPerMm=cv.width/pw, sliceH=Math.floor(ph*pxPerMm);
+      const sc=cv.height/H;
+      for(let y=0,i=0; y<cv.height-1; i++){
+        let hh=Math.min(sliceH,cv.height-y);
+        if(y+hh<cv.height){ const lim=y+sliceH, ok=cuts.map(v=>Math.round(v*sc)+4).filter(v=>v>y+sliceH*0.5 && v<=lim); if(ok.length) hh=ok[ok.length-1]-y; }
+        const c=document.createElement('canvas'); c.width=cv.width; c.height=hh;
+        const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,hh); g.drawImage(cv,0,y,cv.width,hh,0,0,cv.width,hh);
+        if(i) pdf.addPage(); pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',M,M,pw,hh/pxPerMm);
+        y+=hh;
+      }
+      pdfFile = new File([pdf.output('blob')], fname(), {type:'application/pdf'});
+      msg.textContent='קובץ ה-PDF מוכן.'; go.style.display='block';
+    }catch(e){ root.classList.remove('pdfmode','pdfinst'); console.error(e); msg.textContent='לא הצלחתי ליצור PDF – בדוק חיבור לאינטרנט ונסה שוב.'; }
+  }
+  async function deliver(){
+    if(!pdfFile) return;
+    try{
+      if(isMobile && navigator.canShare && navigator.canShare({files:[pdfFile]})){ await navigator.share({files:[pdfFile], title:pdfFile.name}); dlg.classList.remove('on'); return; }
+    }catch(e){ if(e && e.name==='AbortError') return; }
+    const url=URL.createObjectURL(pdfFile), a=document.createElement('a');
+    a.href=url; a.download=pdfFile.name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000); dlg.classList.remove('on');
+  }
+  /* ===== איסוף נתוני הטופס והתוצאות – משותף ל-Excel ול-Word ===== */
+  const txt=el=>(el? (el.innerText||el.textContent||'') : '').replace(/\s+/g,' ').trim();
+  const vis=el=>{ if(!el || el.offsetParent===null) return false; for(let x=el;x&&x!==document.body;x=x.parentElement){ if(getComputedStyle(x).visibility==='hidden') return false; } return true; };
+  const ctrlVal=c=>{ if(!c) return ''; if(c.tagName==='SELECT') return txt(c.options[c.selectedIndex]); if(c.tagName==='INPUT') return c.value; return txt(c); };
+  function collect(){
+    const inputs=[];
+    document.querySelectorAll('.inputs > .card').forEach(card=>{
+      if(!vis(card)) return; const h2=card.querySelector('h2').cloneNode(true); h2.querySelectorAll('button,.helpbtn').forEach(x=>x.remove());
+      const sec={title:txt(h2), rows:[]};
+      card.querySelectorAll('.seg, label, .crow').forEach(el=>{
+        if(!vis(el)) return;
+        if(el.classList.contains('seg')){
+          const chk=el.querySelector('input:checked'); if(!chk) return;
+          let p=el.previousElementSibling; while(p && !vis(p)) p=p.previousElementSibling;
+          const k = p && /^(H3|LABEL)$/.test(p.tagName) && !p.closest('.seg') ? txt(p) : sec.title.replace(/^\d+\.\s*/,'');
+          sec.rows.push([k, txt(chk.closest('label'))]); return;
+        }
+        if(el.classList.contains('crow')){
+          const cl=el.querySelector('.cl'), tag=cl&&cl.querySelector('.tagline');
+          let k=txt(cl); if(tag){ const t=txt(tag); k=k.replace(t,'').trim()+' ('+t+')'; }
+          const c=el.querySelector('input:not([type=hidden]),select,.fixed'); sec.rows.push([k, ctrlVal(c)]); return;
+        }
+        if(el.closest('.seg')||el.closest('.crow')) return;
+        let c=null; for(let n=el.nextElementSibling;n;n=n.nextElementSibling){ if(n.matches('input:not([type=hidden]),select,.fixed')){c=n;break;} const q=n.querySelector&&n.querySelector('input:not([type=hidden]):not([type=radio]),select,.fixed'); if(q){c=q;break;} }
+        if(!c || !vis(c)) return;
+        const v=ctrlVal(c); if(v==='') return; sec.rows.push([txt(el), v]);
+      });
+      if(sec.rows.length) inputs.push(sec);
+    });
+    const res={title:txt(document.getElementById('resTitle')), items:[]};
+    const body=document.getElementById('resBody');
+    body.querySelectorAll('h3, .kpi, .note, tr').forEach(el=>{
+      if(el.closest('.kpi')&&!el.classList.contains('kpi')) return;
+      if(el.tagName==='H3') res.items.push({t:'h', a:txt(el)});
+      else if(el.classList.contains('kpi')) res.items.push({t:'r', a:txt(el.querySelector('.l')), b:txt(el.querySelector('.v')), c:txt(el.querySelector('.s'))});
+      else if(el.classList.contains('note')) res.items.push({t:'n', a:txt(el)});
+      else res.items.push({t:'d', a:txt(el.querySelector('th')), b:txt(el.querySelector('td'))});
+    });
+    return {app:txt(document.querySelector('header h1')), ver:txt(document.querySelector('.app-version')).replace(txt(document.getElementById('savedInfo')),'').trim(), date:new Date().toLocaleDateString('he-IL'), inputs, res};
+  }
+  const baseName=ext=>{ const d=new Date(), p=n=>String(n).padStart(2,'0'); return `חישוב כבלים וזרם קצר ${p(d.getDate())}-${p(d.getMonth()+1)}-${d.getFullYear()}.${ext}`; };
+  /* Excel – SheetJS, גיליון מימין לשמאל */
+  let xlP=null;
+  const loadXl=()=> xlP || (xlP=(async()=>{ if(window.XLSX) return; for(const u of ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js','https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js']){ try{ await addScript(u); if(window.XLSX) return; }catch(e){} } throw new Error('xlsx'); })().catch(e=>{xlP=null;throw e;}));
+  async function makeXlsx(){
+    pdfFile=null; go.style.display='none'; msg.textContent='מכין קובץ Excel…'; dlg.classList.add('on');
+    try{
+      await loadXl(); const d=collect(), A=[];
+      A.push([d.app]); A.push(['משרד טיקטין · '+d.ver]); A.push(['תאריך הפקה: '+d.date]); A.push([]);
+      A.push(['נתוני קלט']); d.inputs.forEach(s=>{ A.push([s.title]); s.rows.forEach(r=>A.push([r[0],r[1]])); A.push([]); });
+      A.push([d.res.title]);
+      d.res.items.forEach(i=>{ if(i.t==='h') A.push([i.a]); else if(i.t==='r') A.push([i.a,i.b,i.c]); else if(i.t==='n') A.push(['הערה',i.a]); else A.push([i.a,i.b]); });
+      const ws=XLSX.utils.aoa_to_sheet(A); ws['!cols']=[{wch:46},{wch:44},{wch:40}];
+      const wb=XLSX.utils.book_new(); wb.Workbook={Views:[{RTL:true}]}; XLSX.utils.book_append_sheet(wb,ws,'חישוב');
+      const out=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+      pdfFile=new File([out],baseName('xlsx'),{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      if(!isMobile){ deliver(); return; } msg.textContent='קובץ ה-Excel מוכן.'; go.style.display='block';
+    }catch(e){ console.error(e); msg.textContent='לא הצלחתי ליצור קובץ Excel – בדוק חיבור לאינטרנט ונסה שוב.'; }
+  }
+  /* Word – קובץ docx אמיתי (ספריית docx), מימין לשמאל, עם לוגו המשרד */
+  let dxP=null;
+  const loadDx=()=> dxP || (dxP=(async()=>{ if(window.docx) return; for(const u of ['https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js','https://unpkg.com/docx@8.5.0/build/index.umd.js']){ try{ await addScript(u); if(window.docx) return; }catch(e){} } throw new Error('docx'); })().catch(e=>{dxP=null;throw e;}));
+  async function makeDoc(){
+    pdfFile=null; go.style.display='none'; msg.textContent='מכין קובץ Word…'; dlg.classList.add('on');
+    try{
+      await loadDx(); const d=collect();
+      const {Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,WidthType,AlignmentType,ImageRun,ShadingType,BorderStyle}=window.docx;
+      const F='Arial';
+      const P=(t,o={})=>{ const heb=/[\u0590-\u05FF]/.test(String(t)); return new Paragraph({bidirectional:heb, alignment: heb?undefined:AlignmentType.RIGHT, spacing:{before:o.before||0, after:o.after||60},
+        children:[new TextRun({text:String(t), rightToLeft:/[\u0590-\u05FF]/.test(String(t)), font:F, size:o.size||21, bold:!!o.bold, color:o.color})]}); };
+      const B={style:BorderStyle.SINGLE,size:4,color:'BBBBBB'}, borders={top:B,bottom:B,left:B,right:B};
+      const cell=(t,w,head,bold)=>new TableCell({width:{size:w,type:WidthType.PERCENTAGE}, borders, margins:{top:40,bottom:40,left:100,right:100},
+        shading: head?{type:ShadingType.CLEAR,color:'auto',fill:'EEF2F8'}:undefined, children:[P(t,{after:0,size:20,bold})]});
+      const table=rows=>new Table({width:{size:100,type:WidthType.PERCENTAGE}, visuallyRightToLeft:true,
+        rows:rows.map(r=>new TableRow({children: r.length>2 ? [cell(r[0],38,true),cell(r[1],27,false,true),cell(r[2],35)] : [cell(r[0],45,true),cell(r[1],55)]}))});
+      const kids=[];
+      const logo=document.querySelector('header img');
+      if(logo && logo.src.startsWith('data:image/png')){ const bin=atob(logo.src.split(',')[1]), u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+        const r=logo.naturalHeight/logo.naturalWidth||0.44; kids.push(new Paragraph({bidirectional:true, children:[new ImageRun({data:u8, transformation:{width:130,height:Math.round(130*r)}})]})); }
+      kids.push(P(d.app,{size:32,bold:true,color:'1D5FD1',before:120}));
+      kids.push(P('משרד טיקטין · '+d.ver+' · תאריך הפקה: '+d.date,{size:18,color:'666666',after:200}));
+      kids.push(P('נתוני קלט',{size:26,bold:true,before:120}));
+      d.inputs.forEach(s=>{ kids.push(P(s.title,{size:22,bold:true,before:160})); kids.push(table(s.rows)); });
+      kids.push(P(d.res.title,{size:26,bold:true,before:280}));
+      let buf=[]; const flush=()=>{ if(buf.length){ kids.push(table(buf)); buf=[]; } };
+      d.res.items.forEach(i=>{ if(i.t==='h'){ flush(); kids.push(P(i.a,{size:22,bold:true,before:160})); }
+        else if(i.t==='n'){ flush(); kids.push(P(i.a,{size:19,color:'444444',before:80})); }
+        else if(i.t==='r') buf.push([i.a,i.b,i.c||'']); else buf.push([i.a,i.b]); });
+      flush();
+      const doc=new Document({styles:{default:{document:{run:{font:F}, paragraph:{bidirectional:true}}}},
+        sections:[{properties:{page:{margin:{top:1000,bottom:1000,left:1000,right:1000}}}, children:kids}]});
+      const blob=await Packer.toBlob(doc);
+      pdfFile=new File([blob],baseName('docx'),{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+      if(!isMobile){ deliver(); return; }
+      msg.textContent='קובץ ה-Word מוכן.'; go.style.display='block';
+    }catch(e){ console.error(e); msg.textContent='לא הצלחתי ליצור קובץ Word – בדוק חיבור לאינטרנט ונסה שוב.'; }
+  }
+  document.getElementById('btnPdf').addEventListener('click',()=> isMobile ? makePdf() : window.print());
+  document.getElementById('btnXlsx').addEventListener('click',makeXlsx);
+  document.getElementById('btnDoc').addEventListener('click',makeDoc);
+  go.addEventListener('click',deliver);
+  document.getElementById('pdfClose').addEventListener('click',()=>dlg.classList.remove('on'));
+})();
 </script>
 </body>
 </html>
