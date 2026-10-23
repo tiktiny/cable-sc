@@ -223,6 +223,8 @@ main{flex:1;display:flex;flex-direction:column;width:100%}
 html.pdfmode{direction:ltr} html.pdfmode body{direction:rtl;width:800px;min-width:800px;overflow:visible}
 html.pdfmode .hdr-btns{display:none!important}
 html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width:800px;box-shadow:none} html.pdfinst #ovInst *{max-height:none!important;overflow:visible!important}
+table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} table.ktbl th,table.ktbl td{border:1px solid #d9dee6;padding:4px 6px;text-align:center} table.ktbl th{background:#eef2f8}
+.ip-card svg{width:100%;height:auto;display:block}
 #pdfDlg{position:fixed;inset:0;background:rgba(20,26,38,.45);display:none;align-items:center;justify-content:center;z-index:300}
 #pdfDlg.on{display:flex}
 #pdfDlg .box{background:#fff;border-radius:14px;padding:20px 18px;width:min(92vw,360px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -240,7 +242,7 @@ html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width
       <div>
         <h1 class="app-heading"><img class="panel-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSI4IiB5PSI0IiB3aWR0aD0iNDgiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjZTdlZmZmIiBzdHJva2U9IiMxODM0NGUiIHN0cm9rZS13aWR0aD0iMyIvPjxyZWN0IHg9IjE0IiB5PSIxMiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjMxIiByeD0iMyIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMTggMjFoMjhNMTggMzNoMjgiIHN0cm9rZT0iI2E1YjRjNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMTgiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PHJlY3QgeD0iMTgiIHk9IjI4IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIyOCIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMjgiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSI1MSIgcj0iMiIgZmlsbD0iIzFhN2Y0YiIvPjxwYXRoIGQ9Ik0zMyA0NmwtNSA3aDVsLTIgNSA4LTloLTVsMi0zeiIgZmlsbD0iI2M1MjMzMCIvPjxyZWN0IHg9IjQ1IiB5PSI0NyIgd2lkdGg9IjMiIGhlaWdodD0iNyIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48L3N2Zz4=" alt="לוח חשמל">חישוב כבלים, גידי הארקה וזרמי קצר</h1>
         <p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p>
-        <div class="app-version">גרסה V17 · עלתה לרשת 20/10/2026<span id="savedInfo"></span></div>
+        <div class="app-version">גרסה V18 · עלתה לרשת 23/10/2026<span id="savedInfo"></span></div>
       </div>
     </div>
     <div class="hdr-btns">
@@ -326,6 +328,18 @@ html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width
       <div><label title="לא חובה – ריק אם הלוח צמוד למונה">אורך מהמונה ללוח [מ׳] <small>(לא חובה)</small></label>
         <input type="number" id="Lmb" min="0" step="1" placeholder="ריק = הלוח צמוד למונה" title="אם הלוח הראשי אינו צמוד למונה – המערכת תבחר גם את הכבל מהמונה ללוח"></div>
       <div id="matMbBox"></div>
+      <div class="instCMb"><label>שיטת התקנה</label>
+        <div class="seg">
+          <label title="מגש מחורר / מגש רשת / סולם כבלים – טבלה 90.7"><input type="radio" name="instMb" value="air" checked>בתעלה (מגש / סולם)</label>
+          <label title="כבל באדמה – טבלה 90.6 (שיטות ל׳, ל״א)"><input type="radio" name="instMb" value="ground">באדמה</label>
+        </div></div>
+      <div class="instCMb gOnlyMb"><label>סוג הטמנה</label>
+        <select id="gHowMb" title="בצינור באדמה (שיטה ל׳) או ישירות באדמה (שיטה ל״א) – טבלה 90.6">
+          <option value="pipe" selected>בצינור באדמה (ל׳)</option>
+          <option value="direct">ישירות באדמה (ל״א)</option>
+        </select></div>
+      <div class="instCMb gOnlyMb"><label>מרחק בין כבלים במקביל</label>
+        <select id="gSpMb" title="מרחק בין הכבלים – לפי טבלה 7 (בצינורות) או טבלה 5 (ישירות באדמה). ברירת מחדל: צמודים"></select></div>
       <div class="note info full">יש להזין את סוג וכמות כבלי חח״י <b>עד המונה</b>: אם המונה מחובר ישירות לתחנה – הכבלים מהתחנה עד המונה; אם המונה מחובר לפילר חלוקה בחדר – הכבלים מהפילר בחדר עד המונה (עכבת הקטע שלפני הפילר מוזנחת – שמרני).</div>
       <div class="hint full">כשהלוח הראשי רחוק מהמונה – יחושב גם כבל מהמונה ללוח (חתך, כמות, הארקה, מפל מתח) וזרם הקצר יחושב בלוח עצמו.</div>
     </div>
@@ -366,6 +380,18 @@ html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width
         <input type="number" id="Lsec" value="50" min="1" step="1" title="אורך הכבל מהלוח המזין ללוח המוזן"></div>
       <div><label title="לא חובה">זרם קצר בלוח המזין [kA]</label>
         <input type="number" id="ikSrc" min="0.1" step="0.1" placeholder="ריק = ללא זרם קצר" title="זרם הקצר בלוח המזין. ללא ערך – יחושבו הכבלים בלבד"></div>
+      <div class="instCSec"><label>שיטת התקנה</label>
+        <div class="seg">
+          <label title="מגש מחורר / מגש רשת / סולם כבלים – טבלה 90.7"><input type="radio" name="instSec" value="air" checked>בתעלה (מגש / סולם)</label>
+          <label title="כבל באדמה – טבלה 90.6 (שיטות ל׳, ל״א)"><input type="radio" name="instSec" value="ground">באדמה</label>
+        </div></div>
+      <div class="instCSec gOnlySec"><label>סוג הטמנה</label>
+        <select id="gHowSec" title="בצינור באדמה (שיטה ל׳) או ישירות באדמה (שיטה ל״א) – טבלה 90.6">
+          <option value="pipe" selected>בצינור באדמה (ל׳)</option>
+          <option value="direct">ישירות באדמה (ל״א)</option>
+        </select></div>
+      <div class="instCSec gOnlySec"><label>מרחק בין כבלים במקביל</label>
+        <select id="gSpSec" title="מרחק בין הכבלים – לפי טבלה 7 (בצינורות) או טבלה 5 (ישירות באדמה). ברירת מחדל: צמודים"></select></div>
       <div class="hint full">ללא זרם קצר בלוח המזין – המערכת תבחר את הכבלים לפי זרם מתמיד מרבי עם המקדמים ומפל מתח, ולא תחשב זרם קצר בלוח המוזן.</div>
       <div class="stack"><div id="matSecBox"></div>
       <div id="secSBox"><label id="lblManS">חתך הכבל [ממ״ר]</label>
@@ -407,7 +433,7 @@ html.pdfinst #ovInst{position:static} html.pdfinst .ip-box{max-height:none;width
 <!-- דף שיטות התקנה -->
 <div class="ov" id="ovInst">
   <div class="box ip-box">
-    <div class="inline hdr" style="margin-bottom:6px"><h2 style="margin:0">שיטות התקנה – טבלאות 90.7 / 90.8</h2>
+    <div class="inline hdr" style="margin-bottom:6px"><h2 style="margin:0" id="instTitle">שיטות התקנה – טבלאות 90.7 / 90.8</h2>
       <div class="hdr-btns"><button type="button" onclick="window.print()" class="noprint">הדפסה</button><button type="button" id="closeInst" class="primary">חזרה למחשבון</button></div></div>
     <div id="instBody"></div>
   </div>
@@ -442,6 +468,15 @@ const TB = [
   [150,292,383,0.206,0.124,0.264,0.158],[185,333,438,0.164,0.0991,0.21,0.126],[240,393,516,0.125,0.0754,0.16,0.0962]
 ].map(r=>({s:r[0],izAl:r[1],izCu:r[2],r20Al:r[3],r20Cu:r[4],rwAl:r[5],rwCu:r[6],x:X_B}));
 const K_B = [1,0.88,0.82,0.77,0.75,0.73,0.73,0.72];           // טבלה 4 שורה 4 – עד 8 כבלים
+/* כבלים באדמה – טבלה 90.6 (שיטות ל׳, ל״א), XLPE 90°C, מעגל תלת-מופעי, אדמה 30°C, התנגדות תרמית 2.5 K·m/W */
+const IZ_G = {cu:{1.5:20,2.5:27,4:34,6:43,10:57,16:73,25:94,35:113,50:134,70:166,95:196,120:223,150:252,185:283,240:326},
+              al:{6:33,10:44,16:57,25:73,35:87,50:104,70:128,95:153,120:173,150:195,185:219,240:253}};
+/* מקדם קבוצה באדמה – טבלה 7 (רב-גידיים בצינורות נפרדים) וטבלה 5 (ישירות באדמה), שורות 2..6 כבלים */
+const GSP = { pipe:[['0','צמודים'],['25','25 ס״מ'],['50','50 ס״מ'],['100','100 ס״מ']],
+              direct:[['0','צמודים'],['De','מרחק קוטר כבל'],['12.5','12.5 ס״מ'],['25','25 ס״מ'],['50','50 ס״מ']] };
+const K_G = { pipe:{'0':[.85,.75,.70,.65,.60],'25':[.90,.85,.80,.80,.80],'50':[.95,.90,.85,.85,.80],'100':[.95,.95,.90,.90,.90]},
+              direct:{'0':[.75,.65,.60,.55,.50],'De':[.80,.70,.60,.55,.55],'12.5':[.85,.75,.70,.65,.60],'25':[.90,.80,.75,.70,.70],'50':[.90,.85,.80,.80,.80]} };
+const kG = (n,inst)=> n<=1 ? 1 : K_G[inst.how][inst.sp][Math.min(n,6)-2];   // מעל 6 כבלים – ערך השורה של 6
 /* שנאי-לוח ראשי: 90.7 רב-גידי / 90.8 חד-גידי, סולם */
 const TA = {
   'm240':{name:'כבל רב-גידי 4×240',type:'multi',s:240,izAl:393,izCu:516,r20Al:0.125,r20Cu:0.0754,rwAl:0.16,rwCu:0.0965,x:0.08,tbl:'90.7'},
@@ -515,18 +550,19 @@ function peFor(n, s, mat){
 }
 
 /* ===== הזנה ללוח משני (קובץ טבלה 90.7) ===== */
-function feederConfigs(mat){
-  const out=[];
+function feederConfigs(mat, inst){
+  const out=[], gr = inst && inst.mode==='ground';
   for(let n=1;n<=MAXN;n++) for(const r of TB){
-    const iz = mat==='al'? r.izAl : r.izCu;
+    const iz = gr ? (IZ_G[mat][r.s]||0) : (mat==='al'? r.izAl : r.izCu);
     if(iz<=0) continue;
-    out.push({n, s:r.s, row:r, K:kB(n), iz, izTot:n*iz*kB(n),
+    const K = gr ? kG(n,inst) : kB(n);
+    out.push({n, s:r.s, row:r, K, iz, izTot:n*iz*K,
       rw: mat==='al'?r.rwAl:r.rwCu, r20: mat==='al'?r.r20Al:r.r20Cu, x:r.x});
   }
   return out;
 }
-function sizeFeeder({In, L, mat, maxLoad=0.9, maxVd=0.03, cos=0.92, manualS=null, ikSrc=null}){
-  const cfgs = feederConfigs(mat);
+function sizeFeeder({In, L, mat, maxLoad=0.9, maxVd=0.03, cos=0.92, manualS=null, ikSrc=null, inst=null}){
+  const cfgs = feederConfigs(mat, inst);
   const ok = c => (In <= maxLoad*c.izTot + 1e-9) && (vdPct(In,L,c.rw,c.x,c.n,cos) <= maxVd + 1e-12);
   let c=null, replaced=false;
   if(manualS){ c = cfgs.find(k=>k.s===manualS && ok(k)); if(!c) replaced=true; }
@@ -536,7 +572,7 @@ function sizeFeeder({In, L, mat, maxLoad=0.9, maxVd=0.03, cos=0.92, manualS=null
   const ik = (ikSrc && ikSrc>0) ? ikEnd(ikSrc, c.r20*L/1000/c.n, c.x*L/1000/c.n) : null;
   const code = (mat==='al'?'NA2XY':'N2XY')+' '+(c.s<=16?'5×':'4×')+c.s+' ממ"ר';
   return {fail:false, n:c.n, s:c.s, K:c.K, iz:c.iz, izTot:c.izTot, load, vd, ik, code, replaced,
-          pe:peFor(c.n,c.s,mat), mat, rw:c.rw, r20:c.r20, x:c.x};
+          pe:peFor(c.n,c.s,mat), mat, rw:c.rw, r20:c.r20, x:c.x, inst: inst&&inst.mode==='ground'?inst:{mode:'air'}};
 }
 
 /* ===== שנאי פרטי → לוח ראשי (קובץ שנאי-לוח ראשי) ===== */
@@ -673,7 +709,138 @@ function crossSection(){
   s+=`<text x="300" y="240" font-size="12" text-anchor="end" fill="#667085">מ-25 ממ״ר: 4 גידים + גיד PE נפרד</text>`;
   return s+'</svg>';
 }
+/* ===== הדמיות כבל באדמה – שיטה ל׳ (בצינור) / ל״א (ישירות) ===== */
+function groundScene(how, mat){
+  const W=1000,H=600, uid='g'+how+mat;
+  const CON = mat==='cu' ? ['#f3b27a','#b8642c','#7a3b14'] : ['#f4f6f8','#b9c0c8','#7d8691'];
+  /* צבעי גידים לפי ת"י 1516-1, כבל 4 גידים ללא גיד הארקה: חום · חום עם פס שחור · חום עם פס כתום · כחול */
+  const COR = [['#a0522d','#5c2d12','L1',null],['#a0522d','#5c2d12','L2','#111111'],['#a0522d','#5c2d12','L3','#f07a12'],['#4f8ff0','#1d4fa8','N',null]];
+  const T=(x,y,t,o={})=>`<text x="${x}" y="${y}" font-family="Arial,Helvetica,sans-serif" font-size="${o.s||15}" font-weight="${o.b?'bold':'normal'}" fill="${o.c||'#1c2230'}" text-anchor="${o.a||'middle'}">${t}</text>`;
+  const dim=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#1d5fd1" stroke-width="1.6" marker-start="url(#ar${uid})" marker-end="url(#ar${uid})"/>`;
+  let s=`<svg viewBox="0 55 ${W} ${H-55}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ar${uid}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#1d5fd1"/></marker>
+    <filter id="soil${uid}" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .31  0 0 0 0 .19  0 0 0 -1.4 1.25"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    <filter id="sand${uid}" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="9"/><feColorMatrix values="0 0 0 0 .78  0 0 0 0 .66  0 0 0 0 .42  0 0 0 -1.6 1.2"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    <filter id="grass${uid}" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".05 1.2" numOctaves="2" seed="2"/><feColorMatrix values="0 0 0 0 .18  0 0 0 0 .45  0 0 0 0 .12  0 0 0 -1.2 1.3"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    <filter id="sh${uid}" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="2" dy="3" stdDeviation="2.5" flood-opacity=".35"/></filter>
+    <linearGradient id="soilG${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5f3a"/><stop offset="1" stop-color="#6b4527"/></linearGradient>
+    <linearGradient id="back${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b78a5e"/><stop offset="1" stop-color="#9c7148"/></linearGradient>
+    <linearGradient id="sandG${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1dfae"/><stop offset="1" stop-color="#d9c08a"/></linearGradient>
+    <radialGradient id="con${uid}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="${CON[0]}"/><stop offset=".6" stop-color="${CON[1]}"/><stop offset="1" stop-color="${CON[2]}"/></radialGradient>
+    <radialGradient id="grn${uid}" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#4cbb6c"/><stop offset=".7" stop-color="#1f8a43"/><stop offset="1" stop-color="#0f5a29"/></radialGradient>
+    <linearGradient id="grnL${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fcf7e"/><stop offset=".45" stop-color="#22964a"/><stop offset="1" stop-color="#0e5426"/></linearGradient>
+    <radialGradient id="org${uid}" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#ffa45c"/><stop offset=".7" stop-color="#e8641c"/><stop offset="1" stop-color="#a8400c"/></radialGradient>
+    <linearGradient id="conc${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d5d8dc"/><stop offset="1" stop-color="#9ea4ab"/></linearGradient>
+    ${COR.map((c,i)=>`<radialGradient id="ins${i}${uid}" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient>`).join('')}
+    <pattern id="tape${uid}" width="36" height="12" patternUnits="userSpaceOnUse"><rect width="36" height="12" fill="#fff"/><rect width="18" height="12" fill="#e11d2e"/></pattern>
+  </defs>
+  <rect width="${W}" height="${H}" fill="#ffffff"/>`;
+  /* --- גוש אדמה בחתך --- */
+  const X0=360,X1=980,Y0=70,Y1=560, gy=Y0+22;               // gy = פני הקרקע
+  s+=`<rect x="${X0}" y="${Y0}" width="${X1-X0}" height="${Y1-Y0}" rx="6" fill="url(#soilG${uid})"/>
+      <rect x="${X0}" y="${Y0}" width="${X1-X0}" height="${Y1-Y0}" rx="6" fill="#fff" filter="url(#soil${uid})" opacity=".9"/>
+      <rect x="${X0}" y="${Y0}" width="${X1-X0}" height="24" rx="6" fill="#3f8f2f"/><rect x="${X0}" y="${Y0}" width="${X1-X0}" height="24" fill="#fff" filter="url(#grass${uid})"/>`;
+  // תעלת החפירה – מילוי חוזר
+  const tx0=520,tx1=820, by=505;                             // by = תחתית התעלה
+  s+=`<path d="M${tx0-30} ${gy} L${tx0} ${by} L${tx1} ${by} L${tx1+30} ${gy} Z" fill="url(#back${uid})"/>
+      <path d="M${tx0-30} ${gy} L${tx0} ${by} L${tx1} ${by} L${tx1+30} ${gy} Z" fill="#fff" filter="url(#soil${uid})" opacity=".35"/>
+      <path d="M${tx0-30} ${gy} L${tx0} ${by}" stroke="#5a3a20" stroke-width="2" opacity=".5"/><path d="M${tx1+30} ${gy} L${tx1} ${by}" stroke="#5a3a20" stroke-width="2" opacity=".5"/>`;
+  // שכבת חול
+  const sTop = how==='pipe' ? 372 : 392;
+  s+=`<rect x="${tx0+1}" y="${sTop}" width="${tx1-tx0-2}" height="${by-sTop}" fill="url(#sandG${uid})"/>
+      <rect x="${tx0+1}" y="${sTop}" width="${tx1-tx0-2}" height="${by-sTop}" fill="#fff" filter="url(#sand${uid})" opacity=".8"/>`;
+  // סרט סימון
+  const tapeY=gy+150;
+  s+=`<rect x="${tx0-6}" y="${tapeY}" width="${tx1-tx0+12}" height="9" fill="url(#tape${uid})" stroke="#9b1020" stroke-width=".6" filter="url(#sh${uid})"/>`;
+  /* --- כבלים --- */
+  const R = how==='pipe'?34:32;
+  const cx= how==='pipe'?[tx0+70, tx0+150, tx0+230]:[tx0+55, tx0+150, tx0+245];
+  const cy = how==='pipe'? 440 : 452;
+  const cable=(x,y,r)=>{
+    let c=`<g filter="url(#sh${uid})"><circle cx="${x}" cy="${y}" r="${r}" fill="url(#grn${uid})"/></g>`;           // מעטה חיצוני ירוק
+    c+=`<circle cx="${x}" cy="${y}" r="${r*0.86}" fill="#d8c7a3"/>`;                                                    // מעטה פנימי
+    c+=`<circle cx="${x}" cy="${y}" r="${r*0.80}" fill="#eadcbc"/>`;                                                    // מילוי
+    const d=r*0.36, ri=r*0.36, rc=r*0.25;
+    [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b],k)=>{ const px=x+a*d*0.98, py=y+b*d*0.98;
+      c+=`<circle cx="${px}" cy="${py}" r="${ri}" fill="url(#ins${k}${uid})"/>`;
+      if(COR[k][3]){ const rr=(ri+rc)/2, a0=-2.2, a1=-0.9; c+=`<path d="M${(px+rr*Math.cos(a0)).toFixed(1)} ${(py+rr*Math.sin(a0)).toFixed(1)} A${rr.toFixed(1)} ${rr.toFixed(1)} 0 0 1 ${(px+rr*Math.cos(a1)).toFixed(1)} ${(py+rr*Math.sin(a1)).toFixed(1)}" fill="none" stroke="${COR[k][3]}" stroke-width="${((ri-rc)*0.75).toFixed(1)}"/>`; }
+      c+=`<circle cx="${px}" cy="${py}" r="${rc}" fill="url(#con${uid})"/>`;
+      for(let j=0;j<6;j++){ const an=j*Math.PI/3; c+=`<circle cx="${(px+Math.cos(an)*rc*0.58).toFixed(1)}" cy="${(py+Math.sin(an)*rc*0.58).toFixed(1)}" r="${(rc*0.34).toFixed(1)}" fill="none" stroke="${CON[2]}" stroke-width=".6" opacity=".7"/>`; }
+      c+=`<circle cx="${px}" cy="${py}" r="${(rc*0.34).toFixed(1)}" fill="none" stroke="${CON[2]}" stroke-width=".6" opacity=".7"/>`;
+    });
+    c+=`<ellipse cx="${x-r*0.35}" cy="${y-r*0.62}" rx="${r*0.38}" ry="${r*0.13}" fill="#fff" opacity=".28"/>`;
+    return c;
+  };
+  if(how==='pipe'){
+    const P=R+12; const px=[tx0+P+8, tx0+3*P+8, tx0+5*P+8];
+    px.forEach(x=>{
+      s+=`<g filter="url(#sh${uid})"><circle cx="${x}" cy="${cy}" r="${P}" fill="url(#org${uid})"/></g>`;
+      for(let k=0;k<20;k++){ const a=k*Math.PI/10; s+=`<line x1="${(x+Math.cos(a)*(P-1)).toFixed(1)}" y1="${(cy+Math.sin(a)*(P-1)).toFixed(1)}" x2="${(x+Math.cos(a)*(P-6)).toFixed(1)}" y2="${(cy+Math.sin(a)*(P-6)).toFixed(1)}" stroke="#a8400c" stroke-width="1.2" opacity=".55"/>`; }
+      s+=`<circle cx="${x}" cy="${cy}" r="${P-7}" fill="#3b2a1e"/>`;
+      s+=cable(x, cy+(P-7-R)-1, R);                                                                                      // הכבל מונח בתחתית הצינור
+    });
+    cx.splice(0,3,...px);
+  } else {
+    cx.forEach(x=>{ s+=cable(x,cy,R); });
+  }
+  /* --- מידות --- */
+  const topCab = (how==='pipe'? cy-(R+12) : cy-R);
+  s+=dim(X1-38, gy, X1-38, topCab) + T(X1-48, (gy+topCab)/2-56, '70 עד 100 ס״מ', {s:17,b:1,c:'#1d5fd1',a:'start'}) + T(X1-48, (gy+topCab)/2-36, 'עד קצה עליון של הכבל', {s:12,c:'#1d5fd1',a:'start'});
+  s+=dim(X0+40, gy, X0+40, tapeY) + T(X0+52, (gy+tapeY)/2+5, '25 ס״מ', {s:15,c:'#1d5fd1',a:'end'});
+  s+=T(tx0-14, tapeY+7, 'סרט סימון', {s:14,c:'#9b1020',a:'start'});
+  s+=dim(tx1+14, by-14, tx1+14, by) ;
+  s+=T(tx1+26, by-3, 'חול 5 ס״מ', {s:13,c:'#5a4318',a:'end'});
+  if(how==='direct'){
+    s+=dim(cx[0]+R, cy+R+16, cx[1]-R, cy+R+16) + T((cx[0]+cx[1])/2, cy+R+36, 'a', {s:15,b:1,c:'#1d5fd1'});
+    s+=T(tx0+150, sTop-10, 'כבלים מונחים ישירות בחול', {s:13,c:'#374151'});
+  } else {
+    s+=T(tx0+150, sTop-10, 'צינורות צמודים – כבל אחד בכל צינור', {s:13,c:'#374151'});
+  }
+  s+=T((X0+X1)/2, Y1+28, 'עומק קצה עליון של הכבל 70 עד 100 ס״מ · סרט סימון מעל הכבל · ריפוד חול מתחת ומעל הכבל', {s:13,c:'#475467'});
+  /* --- פרט הכבל (חיתוך מדורג) --- */
+  const ox=30, oy=150;
+  s+=`<rect x="${ox-10}" y="${oy-70}" width="320" height="400" rx="12" fill="#f6f8fb" stroke="#d9dee6"/>`;
+  s+=T(ox+150, oy-42, mat==='cu'?'כבל N2XY – נחושת':'כבל NA2XY – אלומיניום', {s:17,b:1});
+  s+=T(ox+150, oy-20, '4 גידים · בידוד XLPE · מעטה PVC ירוק · ת״י 1516-1', {s:13,c:'#667085'});
+  // חיתוך מדורג אופקי: מעטה ירוק → מעטה פנימי → גידים מבודדים → מוליכים
+  const ly=oy+40, h=16;
+  s+=`<rect x="${ox+120}" y="${ly-34}" width="170" height="68" rx="34" fill="url(#grnL${uid})" filter="url(#sh${uid})"/>`;
+  s+=`<rect x="${ox+80}" y="${ly-29}" width="70" height="58" rx="10" fill="#d8c7a3" stroke="#b9a57e"/>`;
+  [[-21,0],[-7,1],[7,2],[21,3]].forEach(([dy,k],i)=>{
+    const len = 160 - i*0;
+    s+=`<rect x="${ox+20}" y="${ly+dy-h/2+1}" width="${len-40}" height="${h-2}" rx="7" fill="url(#ins${k}${uid})"/>`;
+    if(COR[k][3]) s+=`<rect x="${ox+26}" y="${ly+dy-1.8}" width="${len-52}" height="3.6" rx="1.8" fill="${COR[k][3]}"/>`;
+    s+=`<rect x="${ox+2}" y="${ly+dy-4}" width="30" height="8" rx="3" fill="url(#con${uid})" stroke="${CON[2]}" stroke-width=".5"/>`;
+  });
+  s+=`<ellipse cx="${ox+290}" cy="${ly}" rx="10" ry="34" fill="#0e5426"/>`;
+  // תוויות
+  const lab=(x1,y1,y2,t)=>`<polyline points="${x1},${y1} ${x1},${y2-4} ${ox+185},${y2-4}" fill="none" stroke="#667085" stroke-width="1"/><circle cx="${x1}" cy="${y1}" r="3" fill="#667085"/>`+T(ox+300, y2, t, {s:13,a:'start'});
+  s+=lab(ox+140, ly+33, ly+66, 'מעטה חיצוני ירוק');
+  s+=lab(ox+95, ly+28, ly+90, 'מעטה פנימי');
+  s+=lab(ox+60, ly+21, ly+114, 'בידוד הגידים');
+  s+=lab(ox+14, ly+22, ly+138, mat==='cu'?'מוליך נחושת':'מוליך אלומיניום');
+  // מקרא צבעי גידים
+  const ky=oy+200;
+  s+=T(ox+150, ky, 'צבעי הגידים', {s:14,b:1});
+  ['L1 – חום','L2 – חום עם פס שחור','L3 – חום עם פס כתום','N – כחול'].forEach((t,i)=>{ const yy=ky+22+i*22;
+    s+=`<circle cx="${ox+232}" cy="${yy-5}" r="8" fill="url(#ins${i}${uid})"/><circle cx="${ox+232}" cy="${yy-5}" r="4" fill="url(#con${uid})"/>${COR[i][3]?`<path d="M${ox+226} ${yy-11} A8 8 0 0 1 ${ox+238} ${yy-11}" fill="none" stroke="${COR[i][3]}" stroke-width="3"/>`:''}`+T(ox+216, yy, t, {s:13,a:'start'}); });
+  s+=T(ox+150, oy+316, 'מעל 16 ממ״ר – גיד הארקה PE נפרד', {s:12,c:'#667085'});
+  return s+'</svg>';
+}
+
 function instPage(active){
+  if(active && active.startsWith('g-')){
+    const [,how,mat]=active.split('-');
+    const tblG = how==='pipe'?'7':'5';
+    const rowsK = GSP[how].map(([k,t])=>`<tr><th>${t}</th>${K_G[how][k].map(v=>`<td>${v.toFixed(2)}</td>`).join('')}</tr>`).join('');
+    return `<div class="ip-now">בחישוב הנוכחי: ${how==='pipe'?'כבלים רב-גידיים בצינורות באדמה – <b>שיטה ל׳, טבלה 90.6</b>':'כבלים רב-גידיים טמונים ישירות באדמה – <b>שיטה ל״א, טבלה 90.6</b>'} · מקדם קבוצה לפי טבלה ${tblG}</div>
+    <div class="ip-intro">תקנות החשמל (העמסה והגנה על מוליכים מבודדים וכבלים במתח נמוך), התשע״ד-2014: כבלים באדמה – טבלה 90.6 (שיטות ל׳ ו-ל״א), בידוד XLPE (90°C), מעגל תלת-מופעי, טמפרטורת אדמה 30°C, התנגדות תרמית סגולית של האדמה 2.5 K·m/W. מקדם קבוצה לכבלים במקביל – טבלה ${tblG} בתוספת הראשונה.</div>
+    <div class="ip-img"><div class="ip-card on" style="grid-column:1/-1"><h3>הדמיה – ${how==='pipe'?'שיטה ל׳: כבלים בצינורות באדמה':'שיטה ל״א: כבלים ישירות באדמה'}</h3>${groundScene(how,mat)}<div class="ip-txt">הדמיה עקרונית – לא בקנה מידה. עומק קצה עליון של הכבל 70–100 ס״מ, סרט סימון מעל הכבל, ריפוד חול.</div></div>
+    <div class="ip-card" style="grid-column:1/-1"><h3>טבלה ${tblG} – מקדם קבוצה (${how==='pipe'?'כבלים רב-גידיים, כל כבל בצינור נפרד':'כבלים המונחים ישירות באדמה'})</h3>
+      <table class="ktbl"><tr><th>מרחק \ מספר כבלים</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>${rowsK}</table>
+      <div class="ip-txt">מעל 6 כבלים – נלקח ערך השורה של 6 כבלים.</div></div></div>`;
+  }
   const now = active==='single' ? 'גידים חד-גידיים על גבי סולם כבלים – <b>שיטה י״ז, טבלה 90.8</b> (הזנת שנאי–לוח ראשי)'
             : active==='ladder' ? 'כבלים רב-גידיים על גבי סולם כבלים – <b>שיטה ט״ז, טבלה 90.7</b> (הזנת שנאי–לוח ראשי)'
             : active==='tray'   ? 'כבלים רב-גידיים על גבי מגש מחורר / מגש רשת – <b>שיטה י״ד, טבלה 90.7</b> (הזנות ללוחות)'
@@ -724,7 +891,8 @@ function matBox(boxId,key,I){
 }
 let manualSec=null;   // null = חתך מחושב (ברירת מחדל)
 function fillManual(mat, calcS){
-  const list=TB.filter(r=>mat==='al'?r.izAl>0:true).map(r=>r.s);
+  const gr=val('instSec')==='ground';
+  const list=TB.filter(r=>mat==='al'?(gr?(IZ_G.al[r.s]||0)>0:r.izAl>0):true).map(r=>r.s);
   if(manualSec!=null && !list.includes(manualSec)) manualSec=null;
   $('manS').innerHTML=list.map(s=>`<option value="${s}">${s}${s===calcS?' (מחושב)':''}</option>`).join('');
   $('manS').value = String(manualSec!=null ? manualSec : (calcS!=null?calcS:list[0]));
@@ -774,9 +942,19 @@ function uiState(){
   if((r95.checked&&!en95)||(r150.checked&&!en150)) document.querySelector('input[name=iecCab][value=a240]').checked=true;
   $('n240Box').style.display=val('iecCab')==='a240'?'':'none';
   $('n240Hint').textContent=`הצעת המערכת לחיבור 3X${I}: ${suggestIec240(I)} כבלים`;
+  ['Sec','Mb'].forEach(sx=>{
+    const how=$('gHow'+sx).value, sel=$('gSp'+sx), cur=sel.value;
+    if(sel.dataset.how!==how){ sel.innerHTML=GSP[how].map(([k,t])=>`<option value="${k}">${t}${k==='0'?' (ברירת מחדל)':''}</option>`).join(''); sel.dataset.how=how;
+      sel.value = GSP[how].some(o=>o[0]===cur) ? cur : '0'; }
+    const gr=val('inst'+sx)==='ground', show = sx==='Sec' || !!num('Lmb');
+    document.querySelectorAll('.instC'+sx).forEach(e=>e.style.visibility=show?'visible':'hidden');
+    document.querySelectorAll('.gOnly'+sx).forEach(e=>e.style.visibility=(show&&gr)?'visible':'hidden');
+  });
   $('lblN240').textContent=`כמות כבלי 240 במקביל (מוצע: ${suggestIec240(I)})`;
 }
 
+function instSel(sx){ return val('inst'+sx)==='ground' ? {mode:'ground', how:$('gHow'+sx).value, sp:$('gSp'+sx).value||'0'} : {mode:'air'}; }
+function instTxt(i){ if(!i||i.mode!=='ground') return 'בתעלה (מגש / סולם) – טבלה 90.7'; const o=GSP[i.how].find(x=>x[0]===i.sp); return (i.how==='pipe'?'בצינור באדמה (ל׳)':'ישירות באדמה (ל״א)')+' – טבלה 90.6, '+(o?o[1]:''); }
 function iecTrS(){ return ($('iecTr').value==='630' && confirmed630) ? 630 : 1000; }
 function crit(){
   let ml=num('maxLoad'); if(ml==null) ml=90; ml=Math.min(100,Math.max(50,ml));
@@ -800,7 +978,7 @@ function feederBlock(r, title, In, L, mat, ikSrc){
   const cab = N((r.n>1?`${r.n} × `:'')+r.code.replace(' ממ"ר',''))+' ממ״ר';
   return `<h3>${title}</h3>
   <div class="result-top">
-    ${kpi('כבל נבחר',cab,`${mat==='al'?'אלומיניום':'נחושת'} · XLPE 90°C`,'main')}
+    ${kpi('כבל נבחר',cab,`${mat==='al'?'אלומיניום':'נחושת'} · XLPE 90°C · ${r.inst&&r.inst.mode==='ground'?'באדמה':'בתעלה'}`,'main')}
     ${kpi('גיד הארקה PE',peText(r.pe),r.pe.included?'':'נחושת מצופה PVC ירוק/צהוב')}
     ${kpi('אחוז העמסה',N(pct(r.load)),`מותר עד ${pct(c.maxLoad,0)} (תקן משרדי)`,loadOk?'okk':'badk')}
     ${kpi('מפל מתח בקטע',N(pct(r.vd,2)),`מותר עד 3% (לפי חוק)`,vdOk?'okk':'badk')}
@@ -809,7 +987,9 @@ function feederBlock(r, title, In, L, mat, ikSrc){
   ${r.replaced?`<div class="note warn keep">החתך שנבחר (${manualSec} ממ״ר) אינו עומד בקריטריונים גם ב-16 כבלים – הוחלף לתצורה עומדת.</div>`:(manualSec!=null&&!r.fail?`<div class="note info keep">חתך שנבחר ידנית: ${manualSec} ממ״ר – מספר הכבלים חושב מחדש (${r.n}).</div>`:'')}
   <details open><summary>פירוט חישוב</summary>${rows([
     ['זרם נומינלי In',N(In+' A')],['אורך',N(L+' מ׳')],
-    ['Iz לכבל (טבלה 90.7, סולם/מגש, 35°C)',N(r.iz+' A')],['מקדם קבוצתי K (טבלה 4 שורה 4)',N(f(r.K,2))],
+    ['שיטת התקנה',instTxt(r.inst)],
+    r.inst&&r.inst.mode==='ground' ? ['Iz לכבל (טבלה 90.6, אדמה 30°C, 2.5 K·m/W)',N(r.iz+' A')] : ['Iz לכבל (טבלה 90.7, סולם/מגש, 35°C)',N(r.iz+' A')],
+    r.inst&&r.inst.mode==='ground' ? ['מקדם קבוצתי K (טבלה '+(r.inst.how==='pipe'?'7':'5')+')',N(f(r.K,2))] : ['מקדם קבוצתי K (טבלה 4 שורה 4)',N(f(r.K,2))],
     ['Iz מתוקן כולל = n × Iz × K',N(f(r.izTot,1)+' A')],
     ['מפל מתח = √3·In·L·(R90·cosφ + X·sinφ)/(n·U)',`R90 = ${N(r.rw)} Ω/ק״מ, X = ${N(r.x)} Ω/ק״מ`],
     ['זרם קצר',r.ik!=null?`R20 = ${N(r.r20)} Ω/ק״מ; Ik = c·U / (√3·√(Rc² + (Zs+Xc)²)), c = 1.1 (IEC 60909, מרבי)`:'—'],
@@ -826,8 +1006,9 @@ function calc(){
     const In=+$('secIn').value, L=num('Lsec'), ik=num('ikSrc');
     const mat=matBox('matSecBox','sec',In);
     if(!L){ $('resBody').innerHTML='<div class="note warn keep">יש להזין אורך תוואי.</div>'; return; }
-    const auto=sizeFeeder({In,L,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,ikSrc:ik});
-    const r = manualSec!=null ? sizeFeeder({In,L,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,manualS:manualSec,ikSrc:ik}) : auto;
+    const inS=instSel('Sec');
+    const auto=sizeFeeder({In,L,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,ikSrc:ik,inst:inS});
+    const r = manualSec!=null ? sizeFeeder({In,L,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,manualS:manualSec,ikSrc:ik,inst:inS}) : auto;
     fillManual(mat, auto.fail?null:auto.s);
     h+=feederBlock(r,`הזנה ללוח משני 3X${In}`,In,L,mat,ik);
     if(!r.fail) ikBoard=r.ik;
@@ -842,7 +1023,7 @@ function calc(){
     const Lmb=num('Lmb');
     const mat=matBox('matMbBox','mb',Lmb?I:null);
     let mb=null;
-    if(Lmb) mb=sizeFeeder({In:I,L:Lmb,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,ikSrc:r.ik});
+    if(Lmb) mb=sizeFeeder({In:I,L:Lmb,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,ikSrc:r.ik,inst:instSel('Mb')});
     ikBoard = mb ? (mb.fail?null:mb.ik) : r.ik;
     h+=`<h3>זרם קצר בלוח ראשי אחרי מונה – חיבור 3X${I}</h3>
     <div class="result-top">
@@ -910,9 +1091,10 @@ function calc(){
 
   let instKind=null;
   { const b=val('board'), s=val('src');
-    if(b==='sec' || (s==='iec' && num('Lmb')) ) instKind='tray';
+    if(b==='sec' || (s==='iec' && num('Lmb')) ){ const sx=b==='sec'?'Sec':'Mb', i=instSel(sx), mt=b==='sec'?(matState.sec&& +$('secIn').value>125?matState.sec:'cu'):(+$('conn').value>125?matState.mb:'cu');
+      instKind = i.mode==='ground' ? `g-${i.how}-${mt}` : 'tray'; }
     else if(s==='hv' && val('hvFeed')!=='bus') instKind='ladder';
-    if(instKind) h+=instBox(instKind); }
+    if(instKind) h+= instKind.startsWith('g-') ? instBoxG(instKind) : instBox(instKind); }
   h+=`<div class="resfoot">${(ikBoard!=null && isFinite(ikBoard))?`<button type="button" class="primary noprint" id="goSec" data-ik="${ikBoard.toFixed(1)}">המשך ← הזנת לוח משני מלוח זה (Ik = ${f(ikBoard,1)} kA)</button>`:''}${instKind?`<button type="button" class="noprint" id="btnInst" data-k="${(val('src')==='hv'&&val('board')==='main'&&val('hvFeed')==='s300')?'single':instKind}" title="הצגת שיטות ההתקנה – איור מהתקנות והדמיות">שיטות התקנה</button>`:''}<span class="hint keep" style="margin:0">הכלי הוא עזר תכנון ואינו מחליף בדיקת מתכנן חשמל מוסמך. בדיקת ניתוק בקצר מזערי (תקנה 10) אינה מבוצעת.</span></div>`;
   const m=h.match(/<h3>(.*?)<\/h3>/);
   $('resTitle').innerHTML='4. פלט: חישוב '+(m?m[1]:'');
@@ -945,6 +1127,12 @@ function svgCables(kind){
   s+=`<line x1="${x0}" y1="${y-22}" x2="${x0+n*d}" y2="${y-22}" stroke="#1d5fd1" stroke-width="1"/><text x="${x0+n*d/2}" y="${y-26}" font-size="10" text-anchor="middle" fill="#1d5fd1">שכבה אחת – כבלים נוגעים</text>`;
   s+=`<text x="${x0+n*d+30}" y="${y+6}" font-size="10" text-anchor="middle" fill="#667085">35°C</text>`;
   return s+'</svg>';
+}
+function instBoxG(k){
+  const [,how]=k.split('-');
+  return `<div class="inst"><div class="txt"><b>בסיס החישוב: טבלה 90.6</b> – תקנות החשמל (העמסה והגנה על מוליכים מבודדים וכבלים במתח נמוך), התשע״ד-2014.
+    <ul><li>כבלים רב-גידיים בבידוד XLPE (90°C), מעגל תלת-מופעי – ${how==='pipe'?'שיטה ל׳: כבלים בצינורות באדמה':'שיטה ל״א: כבלים ישירות באדמה'}.</li>
+    <li>טמפרטורת אדמה 30°C, התנגדות תרמית סגולית 2.5 K·m/W. מקדם קבוצה לכבלים במקביל – טבלה ${how==='pipe'?'7':'5'} לפי המרחק שנבחר.</li></ul></div></div>`;
 }
 function instBox(on){
   const single = val('src')==='hv' && val('board')==='main' && val('hvFeed')==='s300';
@@ -980,8 +1168,10 @@ $('ok630').addEventListener('click',()=>{ confirmed630=true; $('w630').style.dis
 $('cancel630').addEventListener('click',()=>{ confirmed630=false; $('iecTr').value='1000'; $('w630').style.display='none'; calc(); });
 function curInstKind(){ const b=val('board'),s=val('src');
   if(s==='hv'&&b==='main') return val('hvFeed')==='s300'?'single':(val('hvFeed')==='bus'?null:'ladder');
+  const sx=b==='sec'?'Sec':'Mb', i=instSel(sx);
+  if(i.mode==='ground' && (b==='sec' || num('Lmb'))){ const mt=b==='sec'?(+$('secIn').value>125?matState.sec:'cu'):(+$('conn').value>125?matState.mb:'cu'); return `g-${i.how}-${mt}`; }
   return 'tray'; }
-function openInst(k){ $('instBody').innerHTML=instPage(k); $('ovInst').classList.add('on'); document.body.style.overflow='hidden'; }
+function openInst(k){ $('instTitle').textContent = (k&&k.startsWith('g-')) ? 'שיטות התקנה – כבלים באדמה, טבלה 90.6' : 'שיטות התקנה – טבלאות 90.7 / 90.8'; $('instBody').innerHTML=instPage(k); $('ovInst').classList.add('on'); document.body.style.overflow='hidden'; }
 function closeInst(){ $('ovInst').classList.remove('on'); document.body.style.overflow=''; }
 $('btnReset').addEventListener('click',()=>{ location.href=location.pathname+location.search; });
 $('btnInstTop').addEventListener('click',()=>openInst(curInstKind()));
@@ -1029,6 +1219,7 @@ function applyState(st){
   Object.assign(matState, st.matState||{}); manualSec = st.manualSec??null; confirmed630=!!st.confirmed630;
   uiState();
   Object.entries(st.fields||{}).forEach(([id,v])=>{ const e=$(id); if(e && id!=='manS') e.value=v; });
+  uiState(); ['gSpSec','gSpMb'].forEach(id=>{ if(st.fields&&st.fields[id]) $(id).value=st.fields[id]; });
   $('w630').style.display=($('iecTr').value==='630'&&!confirmed630)?'':'none';
   document.querySelectorAll('input[type=number]').forEach(i=>i.dispatchEvent(new Event('input')));
 }
