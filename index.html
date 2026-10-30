@@ -242,7 +242,7 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
       <div>
         <h1 class="app-heading"><img class="panel-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSI4IiB5PSI0IiB3aWR0aD0iNDgiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjZTdlZmZmIiBzdHJva2U9IiMxODM0NGUiIHN0cm9rZS13aWR0aD0iMyIvPjxyZWN0IHg9IjE0IiB5PSIxMiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjMxIiByeD0iMyIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMTggMjFoMjhNMTggMzNoMjgiIHN0cm9rZT0iI2E1YjRjNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMTgiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PHJlY3QgeD0iMTgiIHk9IjI4IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIyOCIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMjgiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSI1MSIgcj0iMiIgZmlsbD0iIzFhN2Y0YiIvPjxwYXRoIGQ9Ik0zMyA0NmwtNSA3aDVsLTIgNSA4LTloLTVsMi0zeiIgZmlsbD0iI2M1MjMzMCIvPjxyZWN0IHg9IjQ1IiB5PSI0NyIgd2lkdGg9IjMiIGhlaWdodD0iNyIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48L3N2Zz4=" alt="לוח חשמל">חישוב כבלים, גידי הארקה וזרמי קצר</h1>
         <p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p>
-        <div class="app-version">גרסה V19 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div>
+        <div class="app-version">גרסה V20 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div>
       </div>
     </div>
     <div class="hdr-btns">
@@ -533,6 +533,7 @@ const BRK_L = 3;
 const brkG = I=>{ const [n,s]=BRK_CAB[I]; return n>1?`${n}(1×${s})`:`1×${s}`; };
 const brkHtml = I=>`<span dir="rtl">פאזה <bdi dir="ltr">${brkG(I)}</bdi> · אפס <bdi dir="ltr">${brkG(I)}</bdi></span>`;
 const SEC_IN   = [25,32,40,50,63,80,100,125,160,200,250,315,400,500,630,800,910];
+const SEC_IN_HV = [...SEC_IN,1000,1250,1600,2000,2500,3200];   // שנאים פרטיים – לוח משני מעל 910A
 
 function stdUp(v){ for(const s of STD) if(s>=v-1e-9) return s; return Math.ceil(v); }  // מעל 2000 – ללא עיגול לחתך תקני
 function sinOf(c){ return Math.sqrt(1-c*c); }
@@ -924,6 +925,10 @@ function uiState(){
   document.querySelectorAll('.mbOnly').forEach(e=>e.style.display=brk?'none':'');
   $('matMbBox').style.display=brk?'none':'';
   if(brk) $('roBrkCab').innerHTML=brkHtml(+$('conn').value);
+  { const sel=$('secIn'), mode=src==='hv'?'hv':'iec';
+    if(sel.dataset.mode!==mode){ const cur=+sel.value||100, list=mode==='hv'?SEC_IN_HV:SEC_IN;
+      sel.innerHTML=list.map(a=>`<option value="${a}">3X${a}</option>`).join(''); sel.dataset.mode=mode;
+      sel.value = list.includes(cur)?cur:list[list.length-1]; } }
   $('iecBox').style.display=src==='iec'?'':'none';
   $('hvBox').style.display=src==='hv'?'':'none';
   $('lblMain').textContent=src==='iec'?'לוח ראשי אחרי מונה':'לוח ראשי – הזנה משנאי';
