@@ -242,7 +242,7 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
       <div>
         <h1 class="app-heading"><img class="panel-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSI4IiB5PSI0IiB3aWR0aD0iNDgiIGhlaWdodD0iNTYiIHJ4PSI3IiBmaWxsPSIjZTdlZmZmIiBzdHJva2U9IiMxODM0NGUiIHN0cm9rZS13aWR0aD0iMyIvPjxyZWN0IHg9IjE0IiB5PSIxMiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjMxIiByeD0iMyIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMTggMjFoMjhNMTggMzNoMjgiIHN0cm9rZT0iI2E1YjRjNiIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMTgiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PHJlY3QgeD0iMTgiIHk9IjI4IiB3aWR0aD0iNyIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzE4MzQ0ZSIvPjxyZWN0IHg9IjI4IiB5PSIyOCIgd2lkdGg9IjciIGhlaWdodD0iOCIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48cmVjdCB4PSIzOCIgeT0iMjgiIHdpZHRoPSI3IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSIjMTgzNDRlIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSI1MSIgcj0iMiIgZmlsbD0iIzFhN2Y0YiIvPjxwYXRoIGQ9Ik0zMyA0NmwtNSA3aDVsLTIgNSA4LTloLTVsMi0zeiIgZmlsbD0iI2M1MjMzMCIvPjxyZWN0IHg9IjQ1IiB5PSI0NyIgd2lkdGg9IjMiIGhlaWdodD0iNyIgcng9IjEiIGZpbGw9IiMxODM0NGUiLz48L3N2Zz4=" alt="לוח חשמל">חישוב כבלים, גידי הארקה וזרמי קצר</h1>
         <p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p>
-        <div class="app-version">גרסה V18 · עלתה לרשת 23/10/2026<span id="savedInfo"></span></div>
+        <div class="app-version">גרסה V19 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div>
       </div>
     </div>
     <div class="hdr-btns">
@@ -295,6 +295,7 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
     <h3>סוג הלוח לבדיקה</h3>
     <div class="seg">
       <label><input type="radio" name="board" value="main" checked><span id="lblMain">לוח ראשי אחרי מונה</span></label>
+      <label id="lblBrk" title="כבלי חח״י מהמונה למפסק הראשי / ללוח הראשי – לפי טבלת חח״י, אורך 3 מ׳"><input type="radio" name="board" value="brk">מפסק ראשי / לוח ראשי</label>
       <label><input type="radio" name="board" value="sec">לוח משני</label>
     </div>
     <div class="hint" id="boardHint"></div>
@@ -309,6 +310,8 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
     <div id="fIec" class="g3 g4">
       <div><label>גודל החיבור [A] (תלת פאזי)</label>
         <select id="conn" title="גודל חיבור החשמל של הלוח הראשי"></select></div>
+      <div class="brkOnly"><label>כבלי מונה–מפסק (חח״י)</label><div class="fixed ro sm" id="roBrkCab" title="לפי טבלת חח״י – ארונות מדידה ואבטחה מפוליאסטר משוריין">–</div></div>
+      <div class="brkOnly"><label>אורך מהמונה למפסק הראשי [מ׳]</label><div class="fixed ro" id="roBrkL" title="קבוע – 3 מ׳">3</div></div>
       <div><label>המונה מחובר</label>
         <div class="seg">
           <label><input type="radio" name="mfrom" value="station" checked>ישירות לתחנה</label>
@@ -325,7 +328,7 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
       <div id="n240Box"><label id="lblN240">כמות כבלי 240 במקביל</label>
         <input type="number" id="n240" value="2" min="1" max="16" step="1" title="מספר כבלי 240 ממ״ר אלומיניום במקביל">
         <div class="hint keep" id="n240Hint" style="display:none"></div></div>
-      <div><label title="לא חובה – ריק אם הלוח צמוד למונה">אורך מהמונה ללוח [מ׳] <small>(לא חובה)</small></label>
+      <div class="mbOnly"><label title="לא חובה – ריק אם הלוח צמוד למונה">אורך מהמונה ללוח [מ׳] <small>(לא חובה)</small></label>
         <input type="number" id="Lmb" min="0" step="1" placeholder="ריק = הלוח צמוד למונה" title="אם הלוח הראשי אינו צמוד למונה – המערכת תבחר גם את הכבל מהמונה ללוח"></div>
       <div id="matMbBox"></div>
       <div class="instCMb"><label>שיטת התקנה</label>
@@ -341,7 +344,7 @@ table.ktbl{border-collapse:collapse;width:100%;font-size:14px;margin-top:6px} ta
       <div class="instCMb gOnlyMb"><label>מרחק בין כבלים במקביל</label>
         <select id="gSpMb" title="מרחק בין הכבלים – לפי טבלה 7 (בצינורות) או טבלה 5 (ישירות באדמה). ברירת מחדל: צמודים"></select></div>
       <div class="note info full">יש להזין את סוג וכמות כבלי חח״י <b>עד המונה</b>: אם המונה מחובר ישירות לתחנה – הכבלים מהתחנה עד המונה; אם המונה מחובר לפילר חלוקה בחדר – הכבלים מהפילר בחדר עד המונה (עכבת הקטע שלפני הפילר מוזנחת – שמרני).</div>
-      <div class="hint full">כשהלוח הראשי רחוק מהמונה – יחושב גם כבל מהמונה ללוח (חתך, כמות, הארקה, מפל מתח) וזרם הקצר יחושב בלוח עצמו.</div>
+      <div class="hint full mbOnly">כשהלוח הראשי רחוק מהמונה – יחושב גם כבל מהמונה ללוח (חתך, כמות, הארקה, מפל מתח) וזרם הקצר יחושב בלוח עצמו.</div>
     </div>
 
     <!-- שנאי פרטי → לוח ראשי -->
@@ -523,6 +526,12 @@ function busDefault(list, ir){
   return list.filter(b=>b.ir===ir).sort((a,b)=>(b.icw-a.icw)||((a.r35||a.r20)-(b.r35||b.r20)))[0];
 }
 const IEC_CONN = [40,50,63,80,100,125,160,200,250,315,400,500,630,800,910];
+/* כבלי חח"י מונה → מפסק ראשי / לוח ראשי: N2XY חד-גידי נחושת [מספר גידים במקביל לכל פאזה ולאפס, חתך] – לפי טבלת חח"י לארונות מדידה ואבטחה מפוליאסטר משוריין */
+const BRK_CAB = {100:[1,50],125:[1,50],160:[1,50],200:[1,150],250:[1,150],315:[1,150],400:[2,150],500:[2,150],630:[3,150],800:[4,150],910:[4,150]};
+const BRK_CONN = Object.keys(BRK_CAB).map(Number);
+const BRK_L = 3;
+const brkG = I=>{ const [n,s]=BRK_CAB[I]; return n>1?`${n}(1×${s})`:`1×${s}`; };
+const brkHtml = I=>`<span dir="rtl">פאזה <bdi dir="ltr">${brkG(I)}</bdi> · אפס <bdi dir="ltr">${brkG(I)}</bdi></span>`;
 const SEC_IN   = [25,32,40,50,63,80,100,125,160,200,250,315,400,500,630,800,910];
 
 function stdUp(v){ for(const s of STD) if(s>=v-1e-9) return s; return Math.ceil(v); }  // מעל 2000 – ללא עיגול לחתך תקני
@@ -904,11 +913,21 @@ function fillManual(mat, calcS){
 $('manReset').addEventListener('click',()=>{ manualSec=null; calc(); });
 
 function uiState(){
-  const src=val('src'), board=val('board');
+  if(val('src')!=='iec' && val('board')==='brk') document.querySelector('input[name=board][value=main]').checked=true;
+  const src=val('src'), board=val('board'), brk=board==='brk';
+  $('lblBrk').style.display=src==='iec'?'':'none';
+  { const sel=$('conn'), mode=brk?'brk':'main';
+    if(sel.dataset.mode!==mode){ const cur=+sel.value||250, list=brk?BRK_CONN:IEC_CONN;
+      sel.innerHTML=list.map(a=>`<option value="${a}">3X${a}</option>`).join(''); sel.dataset.mode=mode;
+      sel.value = list.includes(cur)?cur:(brk?(cur<100?100:910):cur); } }
+  document.querySelectorAll('.brkOnly').forEach(e=>e.style.display=brk?'':'none');
+  document.querySelectorAll('.mbOnly').forEach(e=>e.style.display=brk?'none':'');
+  $('matMbBox').style.display=brk?'none':'';
+  if(brk) $('roBrkCab').innerHTML=brkHtml(+$('conn').value);
   $('iecBox').style.display=src==='iec'?'':'none';
   $('hvBox').style.display=src==='hv'?'':'none';
   $('lblMain').textContent=src==='iec'?'לוח ראשי אחרי מונה':'לוח ראשי – הזנה משנאי';
-  $('fIec').style.display=(src==='iec'&&board==='main')?'':'none';
+  $('fIec').style.display=(src==='iec'&&(board==='main'||brk))?'':'none';
   $('fHv').style.display=(src==='hv'&&board==='main')?'':'none';
   $('fSec').style.display=board==='sec'?'':'none';
   { const fd=val('hvFeed'), isB=fd==='bus', isS=fd==='s300';
@@ -930,6 +949,7 @@ function uiState(){
     } else n.style.display='none'; }
   $('boardHint').textContent = board==='sec'
     ? 'לוח משני: הזנה מלוח מזין – חתך וכמות כבלים, הארקה, מפל מתח וזרם קצר צפוי בלוח המוזן.'
+    : brk ? 'מפסק ראשי / לוח ראשי: זרם קצר לפי שנאי חח״י, כבלי חח״י עד המונה וכבלי חח״י מהמונה למפסק – חתך לפי טבלת חח״י, אורך 3 מ׳.'
     : (src==='iec' ? 'לוח ראשי אחרי מונה: זרם קצר בלוח לפי שנאי חח״י וכבלי חח״י עד המונה.'
                    : 'לוח ראשי: הזנה מהשנאי הפרטי ללוח הראשי בלבד – פסי צבירה או כבלים/גידים אלומיניום.');
   $('lblLiec').textContent = val('mfrom')==='pillar' ? 'אורך מהפילר בחדר עד המונה [מ׳]' : 'אורך מתחנת חח״י עד המונה [מ׳]';
@@ -946,7 +966,7 @@ function uiState(){
     const how=$('gHow'+sx).value, sel=$('gSp'+sx), cur=sel.value;
     if(sel.dataset.how!==how){ sel.innerHTML=GSP[how].map(([k,t])=>`<option value="${k}">${t}${k==='0'?' (ברירת מחדל)':''}</option>`).join(''); sel.dataset.how=how;
       sel.value = GSP[how].some(o=>o[0]===cur) ? cur : '0'; }
-    const gr=val('inst'+sx)==='ground', show = sx==='Sec' || !!num('Lmb');
+    const gr=val('inst'+sx)==='ground', show = sx==='Sec' || (!brk && !!num('Lmb'));
     document.querySelectorAll('.instC'+sx).forEach(e=>e.style.visibility=show?'visible':'hidden');
     document.querySelectorAll('.gOnly'+sx).forEach(e=>e.style.visibility=(show&&gr)?'visible':'hidden');
   });
@@ -1020,8 +1040,36 @@ function calc(){
     const trS=iecTrS();
     const r=calcIecMain({trS,uk:0.06,I,Liec,key,n,cos:c.cos});
     const cabTxt=N(`${n>1?n+' × ':''}NA2XY 4×${r.cab.s}`)+' ממ״ר (חח״י)';
-    const Lmb=num('Lmb');
+    const brk=board==='brk';
+    const Lmb=brk?null:num('Lmb');
     const mat=matBox('matMbBox','mb',Lmb?I:null);
+    if(brk){
+      const [nb,sb]=BRK_CAB[I]||BRK_CAB[910], rr=TB.find(x=>x.s===sb), L=BRK_L;
+      const Rm=r.tr.R+r.cab.r20*Liec/1000/n, Xm=r.tr.X+r.cab.x*Liec/1000/n;
+      const ikB=ikZ(Rm, Xm, rr.r20Cu*L/1000/nb, rr.x*L/1000/nb);
+      const vdB=vdPct(I, L, rr.rwCu, rr.x, nb, c.cos);
+      const bG=brkG(I);
+      ikBoard=ikB;
+      h+=`<h3>זרם קצר במפסק הראשי / לוח ראשי – חיבור 3X${I}</h3>
+    <div class="result-top">
+      ${kpi('זרם קצר במפסק הראשי / לוח ראשי', N(f(ikB,1)+' kA'),`אחרי ${N(L+' מ׳')} כבלי חח״י מהמונה`,'main')}
+      ${kpi('כבלי חח״י מהמונה למפסק',N(bG),`לכל פאזה ולאפס · N2XY חד-גידי נחושת · ${N(L+' מ׳')} · לפי טבלת חח״י`)}
+      ${kpi('זרם קצר במונה',N(f(r.ik,1)+' kA'),`אחרי ${N(Liec+' מ׳')} ${cabTxt}`)}
+      ${kpi('מפל מתח מהתחנה למפסק',N(pct(r.vd+vdB,2)),'לידיעה – באחריות חח״י')}
+    </div>
+    ${($('iecTr').value==='630'&&!confirmed630)?'<div class="note warn keep">נבחר 630 kVA אך טרם אושרה האזהרה – החישוב מבוצע לפי 1000 kVA.</div>':''}
+    ${trS===630?'<div class="note warn keep">החישוב לפי שנאי 630 kVA (אושר על ידי המשתמש) – לא שמרני.</div>':''}
+    <details open><summary>פירוט חישוב</summary>${rows([
+      ['In שנאי = S/(√3·400)',N(f(r.tr.In,0)+' A')],['Ik בהדקי שנאי – IEC 60909 (c = 1.1, Pk '+f(r.tr.pk,2)+'%, KT = '+f(r.tr.KT,3)+')',N(f(r.tr.ik,2)+' kA')],
+      ['כבלי חח״י עד המונה',`${cabTxt} · R20 = ${N(r.cab.r20)} Ω/ק״מ, X = ${N(r.cab.x)} Ω/ק״מ, ${N(n)} במקביל`],
+      ['מקור הכבל',val('mfrom')==='pillar'?'פילר חלוקה בחדר (עכבת הקטע שלפני הפילר מוזנחת – שמרני)':'ישירות מהתחנה'],
+      ['Ik במונה',N(f(r.ik,2)+' kA')],
+      ['כבלי חח״י מהמונה למפסק (טבלת חח״י)',`N2XY חד-גידי – ${brkHtml(I)} · R20 = ${N(rr.r20Cu)} Ω/ק״מ, X = ${N(rr.x)} Ω/ק״מ, ${N(nb)} במקביל לכל פאזה`],
+      ['אורך מהמונה למפסק',N(L+' מ׳')+' (קבוע)'],
+      ['מפל מתח: כבלי חח״י עד המונה / מהמונה למפסק',N(pct(r.vd,2))+' / '+N(pct(vdB,2))],
+      ['Ik במפסק = c·U / (√3·√((RT+Rc+Rm)² + (XT+Xc+Xm)²)), c = 1.1',N(f(ikB,2)+' kA')]
+    ])}</details>`;
+    } else {
     let mb=null;
     if(Lmb) mb=sizeFeeder({In:I,L:Lmb,mat,maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,ikSrc:r.ik,inst:instSel('Mb')});
     ikBoard = mb ? (mb.fail?null:mb.ik) : r.ik;
@@ -1042,6 +1090,7 @@ function calc(){
     ])}</details>`;
     if(Lmb) h+=feederBlock(mb,`כבל מהמונה ללוח הראשי (${Lmb} מ׳)`,I,Lmb,mat,r.ik);
     if(Lmb&&mb&&!mb.fail) h+=`<div class="note info keep">מפל מתח כולל מהתחנה ללוח הראשי: ${N(pct(r.vd+mb.vd,2))}</div>`;
+    }
   }
   else { // שנאי פרטי → לוח ראשי
     const S=+$('hvS').value, uk=(num('hvUk')||6)/100, L=num('Lhv'), feed=val('hvFeed');
@@ -1091,7 +1140,7 @@ function calc(){
 
   let instKind=null;
   { const b=val('board'), s=val('src');
-    if(b==='sec' || (s==='iec' && num('Lmb')) ){ const sx=b==='sec'?'Sec':'Mb', i=instSel(sx), mt=b==='sec'?(matState.sec&& +$('secIn').value>125?matState.sec:'cu'):(+$('conn').value>125?matState.mb:'cu');
+    if(b==='sec' || (s==='iec' && b==='main' && num('Lmb')) ){ const sx=b==='sec'?'Sec':'Mb', i=instSel(sx), mt=b==='sec'?(matState.sec&& +$('secIn').value>125?matState.sec:'cu'):(+$('conn').value>125?matState.mb:'cu');
       instKind = i.mode==='ground' ? `g-${i.how}-${mt}` : 'tray'; }
     else if(s==='hv' && val('hvFeed')!=='bus') instKind='ladder';
     if(instKind) h+= instKind.startsWith('g-') ? instBoxG(instKind) : instBox(instKind); }
@@ -1162,13 +1211,14 @@ function fitDetails(){
 window.addEventListener('resize',()=>fitDetails());
 /* אירועים */
 document.querySelectorAll('input,select').forEach(e=>{ e.addEventListener('input',calc); e.addEventListener('change',calc); });
-$('conn').addEventListener('change',()=>{ $('n240').value=suggestIec240(+$('conn').value); });
+$('conn').addEventListener('change',()=>{ $('n240').value=suggestIec240(+$('conn').value); calc(); });
 $('iecTr').addEventListener('change',()=>{ const is=$('iecTr').value==='630'; if(!is) confirmed630=false; $('w630').style.display=(is&&!confirmed630)?'':'none'; calc(); });
 $('ok630').addEventListener('click',()=>{ confirmed630=true; $('w630').style.display='none'; calc(); });
 $('cancel630').addEventListener('click',()=>{ confirmed630=false; $('iecTr').value='1000'; $('w630').style.display='none'; calc(); });
 function curInstKind(){ const b=val('board'),s=val('src');
   if(s==='hv'&&b==='main') return val('hvFeed')==='s300'?'single':(val('hvFeed')==='bus'?null:'ladder');
   const sx=b==='sec'?'Sec':'Mb', i=instSel(sx);
+  if(b==='brk') return 'tray';
   if(i.mode==='ground' && (b==='sec' || num('Lmb'))){ const mt=b==='sec'?(+$('secIn').value>125?matState.sec:'cu'):(+$('conn').value>125?matState.mb:'cu'); return `g-${i.how}-${mt}`; }
   return 'tray'; }
 function openInst(k){ $('instTitle').textContent = (k&&k.startsWith('g-')) ? 'שיטות התקנה – כבלים באדמה, טבלה 90.6' : 'שיטות התקנה – טבלאות 90.7 / 90.8'; $('instBody').innerHTML=instPage(k); $('ovInst').classList.add('on'); document.body.style.overflow='hidden'; }
@@ -1225,7 +1275,7 @@ function applyState(st){
 }
 function saveName(){
   const b=val('board'), s=val('src');
-  const what = b==='sec' ? `לוח משני 3X${$('secIn').value}` : (s==='iec' ? `לוח ראשי 3X${$('conn').value}` : `שנאי ${$('hvS').value}kVA`);
+  const what = b==='sec' ? `לוח משני 3X${$('secIn').value}` : b==='brk' ? `מפסק ראשי 3X${$('conn').value}` : (s==='iec' ? `לוח ראשי 3X${$('conn').value}` : `שנאי ${$('hvS').value}kVA`);
   const d=new Date(), dd=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   return `חישוב כבלים וזרם קצר - ${what} - ${dd}.html`;
 }
