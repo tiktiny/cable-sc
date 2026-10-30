@@ -287,7 +287,7 @@ html.zw640 #cFeed .g3,html.zw640 #cFeed .g3.g4{grid-template-columns:1fr} html.z
       <button id="btnDoc" type="button" title="ייצוא נתוני הקלט והתוצאות לקובץ Word">ייצוא Word</button>
       <button id="btnPdf" type="button" title="הדפסה או שמירה כ-PDF (בטלפון – יוצר קובץ PDF לשמירה או שיתוף)">הדפסה / PDF</button>
     </div>
-    <div class="hsub"><p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p><div class="app-version">גרסה V22 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div></div>
+    <div class="hsub"><p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p><div class="app-version">גרסה V23 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div></div>
   </div>
 </header>
 
@@ -780,7 +780,7 @@ function crossSection(){
   return s+'</svg>';
 }
 /* ===== הדמיות כבל באדמה – שיטה ל׳ (בצינור) / ל״א (ישירות) ===== */
-function groundScene(how, mat){
+function groundScene(how, mat, spTxt){
   const W=1000,H=600, uid='g'+how+mat;
   const CON = mat==='cu' ? ['#f3b27a','#b8642c','#7a3b14'] : ['#f4f6f8','#b9c0c8','#7d8691'];
   /* צבעי גידים לפי ת"י 1516-1, כבל 4 גידים ללא גיד הארקה: חום · חום עם פס שחור · חום עם פס כתום · כחול */
@@ -862,10 +862,10 @@ function groundScene(how, mat){
   s+=dim(tx1+14, by-14, tx1+14, by) ;
   s+=T(tx1+26, by-3, 'חול 5 ס״מ', {s:13,c:'#5a4318',a:'end'});
   if(how==='direct'){
-    s+=dim(cx[0]+R, cy+R+16, cx[1]-R, cy+R+16) + T((cx[0]+cx[1])/2, cy+R+36, 'a', {s:15,b:1,c:'#1d5fd1'});
+    s+=dim(cx[0]+R, cy+R+16, cx[1]-R, cy+R+16) + T((cx[0]+cx[1])/2, cy+R+36, spTxt?('a = '+spTxt):'a', {s:15,b:1,c:'#1d5fd1'});
     s+=T(tx0+150, sTop-10, 'כבלים מונחים ישירות בחול', {s:13,c:'#374151'});
   } else {
-    s+=T(tx0+150, sTop-10, 'צינורות צמודים – כבל אחד בכל צינור', {s:13,c:'#374151'});
+    s+=T(tx0+150, sTop-10, (spTxt&&spTxt!=='צמודים')?('צינורות במרחק '+spTxt+' – כבל אחד בכל צינור'):'צינורות צמודים – כבל אחד בכל צינור', {s:13,c:'#374151'});
   }
   s+=T((X0+X1)/2, Y1+28, 'עומק קצה עליון של הכבל 70 עד 100 ס״מ · סרט סימון מעל הכבל · ריפוד חול מתחת ומעל הכבל', {s:13,c:'#475467'});
   /* --- פרט הכבל (חיתוך מדורג) --- */
@@ -1052,6 +1052,13 @@ function uiState(){
   $('lblN240').textContent=`כמות כבלי 240 במקביל (מוצע: ${suggestIec240(I)})`;
 }
 
+function sldPic(i,mat,kind){ // הדמיית שיטת ההתקנה לסכמה החד-קווית – כפי שמופיעה באפליקציה
+  if(i&&i.mode==='ground'){ const o=GSP[i.how].find(x=>x[0]===i.sp);
+    return {svg:groundScene(i.how,mat,o?o[1]:null), cap:`שיטת התקנה: ${i.how==='pipe'?'שיטה ל׳ – כבלים בצינורות באדמה':'שיטה ל״א – כבלים ישירות באדמה'} (טבלה 90.6)${o?' · מרחק בין הכבלים: '+o[1]:''}`, w:800}; }
+  if(kind==='single') return {svg:svgCables('ladder'), cap:'שיטת התקנה: שיטה י״ז – גידים חד-גידיים על סולם כבלים (טבלה 90.8)', w:520};
+  if(kind==='ladder') return {svg:svgCables('ladder'), cap:'שיטת התקנה: שיטה ט״ז – כבלים רב-גידיים על סולם כבלים (טבלה 90.7)', w:520};
+  return {svg:svgCables('tray'), cap:'שיטת התקנה: שיטה י״ד – כבלים רב-גידיים על מגש מחורר / מגש רשת (טבלה 90.7)', w:520};
+}
 function sldInst(i,n){ // שורות שיטת התקנה לסכמה החד-קווית
   if(!i||i.mode!=='ground') return [`שיטת התקנה: בתעלה (מגש / סולם) – טבלה 90.7`];
   const o=GSP[i.how].find(x=>x[0]===i.sp), tb=i.how==='pipe'?'7':'5';
@@ -1120,7 +1127,7 @@ function calc(){
     h+=feederBlock(r,`הזנה ללוח משני 3X${In}`,In,L,mat,ik);
     if(!r.fail) ikBoard=r.ik;
     if(!r.fail){ const matT=mat==='al'?'אלומיניום':'נחושת', gr=r.inst&&r.inst.mode==='ground';
-      window.SLD={title:`הזנה ללוח משני 3X${In}A`, file:`לוח משני ${In}A`, sub:`${src==='iec'?'מקור: שנאי חח״י':'מקור: שנאים פרטיים (מתח גבוה)'} · ${sldInst(r.inst,r.n).map(x=>x.replace(/^שיטת התקנה: /,'')).join(' · ')}`,
+      window.SLD={pic:sldPic(r.inst,mat,'tray'), title:`הזנה ללוח משני 3X${In}A`, file:`לוח משני ${In}A`, sub:`${src==='iec'?'מקור: שנאי חח״י':'מקור: שנאים פרטיים (מתח גבוה)'} · ${sldInst(r.inst,r.n).map(x=>x.replace(/^שיטת התקנה: /,'')).join(' · ')}`,
         chain:[
           {node:{type:'srcboard',name:'לוח מזין',lines:[ik>0?{t:`זרם קצר: ${f(ik,1)} kA`,b:true}:'זרם קצר בלוח המזין לא הוזן']}},
           {seg:{kind:'cable',n:r.n,lines:[{t:`${r.n>1?r.n+' כבלים':'כבל'} ${r.code} – ${matT}`,b:true},...sldInst(r.inst,r.n),`אורך: ${f(L,0)} מ׳`,`הארקה: ${peText(r.pe).replace(/<[^>]+>/g,'')}`,{t:`העמסה: ${pct(r.load)}`,c:r.load<=c.maxLoad+1e-9?'#1a7f4b':'#b42318'},{t:`מפל מתח: ${pct(r.vd,2)}`,c:r.vd<=c.maxVd+1e-12?'#1a7f4b':'#b42318'}]}},
@@ -1228,7 +1235,7 @@ function calc(){
     } else {
       const r=sizeTrafoCable({S,uk,L,key:feed,mat:'al',maxLoad:c.maxLoad,maxVd:c.maxVd,cos:c.cos,tbl:$('tblSel').value});
       ikBoard=r.ik;
-      window.SLD={title:`שנאי ${S} kVA → לוח ראשי`, file:`שנאי ${S}kVA`, sub:`${r.cable.type==='single'?'גידים חד-גידיים':'כבלים רב-גידיים'} אלומיניום על סולם – טבלה ${r.tblUsed}`, chain:[
+      window.SLD={pic:sldPic(null,'al',r.cable.type==='single'?'single':'ladder'), title:`שנאי ${S} kVA → לוח ראשי`, file:`שנאי ${S}kVA`, sub:`${r.cable.type==='single'?'גידים חד-גידיים':'כבלים רב-גידיים'} אלומיניום על סולם – טבלה ${r.tblUsed}`, chain:[
         {node:{type:'trafo',name:'שנאי פרטי',lines:[{t:`${S} kVA · uk ${f(uk*100,1)}%`,b:true},`זרם נומינלי: ${f(r.tr.In,0)} A`,`זרם קצר בהדקים: ${f(r.tr.ik,1)} kA`]}},
         {seg:{kind:'cable',n:r.n,lines:[{t:`${r.n} ${r.cable.type==='single'?'סטים 4×(1×'+r.cable.s+')':'כבלים 4×'+r.cable.s} ממ״ר – אלומיניום`,b:true},`שיטת התקנה: סולם כבלים בשכבה אחת – טבלה ${r.tblUsed}`,`אורך: ${f(L,0)} מ׳`,`הארקה: ${peText(r.pe).replace(/<[^>]+>/g,'')}`,{t:`העמסה: ${pct(r.load)}`,c:r.load<=c.maxLoad+1e-9?'#1a7f4b':'#b42318'},{t:`מפל מתח: ${pct(r.vd,2)}`,c:r.vd<=c.maxVd?'#1a7f4b':'#b42318'}]}},
         {node:{type:'board',name:'לוח ראשי',brk:'מפסק ראשי',lines:[{t:`זרם קצר: ${f(r.ik,1)} kA`,b:true},`מפל מתח: ${pct(r.vd,2)}`]}}],
@@ -1644,6 +1651,10 @@ calc();
       else { const h=Math.max(SEG_H[it.seg.kind]||SEG_H.cable, it.seg.kind==='link'?0:it.seg.lines.length*LH+80); pos.push({it,y0:y,y1:y+h}); y+=h; }
       if(it.node && it.node.gapAfter) y+=0;
     });
+    // הדמיית שיטת ההתקנה – מתחת לשרשרת
+    let picBox=null;
+    if(d.pic && d.pic.svg){ const vb=(d.pic.svg.match(/viewBox="([^"]+)"/)||[])[1]; const v=vb?vb.split(/[\s,]+/).map(Number):[0,0,4,3];
+      const pw=d.pic.w||520, ph=Math.round(pw*v[3]/v[2]); y+=40; picBox={y0:y,pw,ph}; y+=34+ph+16; }
     const H=y+150, W=860;
 
     // מסגרת וכותרת
@@ -1688,6 +1699,11 @@ calc();
         s.lines.forEach((q,i)=>T(lx,ly+i*LH,q.t||q,{a:'l',b:!!q.b,c:q.c||'#1c2230'}));
       }
     });
+    if(picBox){ const px=(W-picBox.pw)/2, cy=picBox.y0;
+      L(20,cy-16,W-20,cy-16,{layer:'FRAME',w:0.8,c:'#c9ced8'});
+      T(W-30,cy+14,d.pic.cap,{s:15,b:true,a:'r'});
+      P.push({t:'svg',x:px,y:cy+34,w:picBox.pw,h:picBox.ph,svg:d.pic.svg,layer:'FRAME'});
+      R(px,cy+34,picBox.pw,picBox.ph,{layer:'FRAME',w:0.8,fill:'none',c:'#c9ced8'}); }
     // הערות
     let fy=H-112; L(20,fy-24,W-20,fy-24,{layer:'FRAME',w:0.8,c:'#c9ced8'});
     (d.notes||[]).forEach((s,i)=>T(W-30,fy+i*20,s,{s:12.5,a:'r',c:'#667085'}));
@@ -1705,6 +1721,7 @@ calc();
       else if(p.t==='rect') o+=`<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="3" fill="${p.fill}" stroke="${p.c}" stroke-width="${p.w2}"/>`;
       else if(p.t==='poly') o+=`<polygon points="${p.pts.map(q=>q.join(',')).join(' ')}" fill="${p.fill}" stroke="${p.c}" stroke-width="${p.w}" stroke-linejoin="round"/>`;
       else if(p.t==='circle') o+=`<circle cx="${p.cx}" cy="${p.cy}" r="${p.r}" fill="${p.fill}" stroke="${p.c}" stroke-width="${p.w}"/>`;
+      else if(p.t==='svg') o+=p.svg.replace(/^\s*<svg([^>]*)>/,(m,a)=>`<svg x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" preserveAspectRatio="xMidYMid meet"${a.replace(/\s(x|y|width|height|role|aria-label)="[^"]*"/g,'')}>`);
       else if(p.t==='text'){ const an=p.a==='r'?'start':p.a==='l'?'end':'middle';
         o+=`<text x="${p.x}" y="${p.y}" font-size="${p.s}" fill="${p.c}"${p.b?' font-weight="700"':''} direction="rtl" text-anchor="${an}" data-layer="${p.layer}">${esc(p.str)}</text>`; }
     });
@@ -1739,6 +1756,7 @@ calc();
         if(p.fill!=='none'){ const tri=(a,b,c)=>{ g(0,'SOLID');g(8,p.layer);g(10,X(a[0]));g(20,Y(a[1]));g(30,0);g(11,X(b[0]));g(21,Y(b[1]));g(31,0);g(12,X(c[0]));g(22,Y(c[1]));g(32,0);g(13,X(c[0]));g(23,Y(c[1]));g(33,0); };
           if(q.length===3) tri(q[0],q[1],q[2]); else { tri(q[0],q[1],q[2]); tri(q[2],q[3],q[4]); tri(q[4],q[5],q[6]); tri(q[0],q[2],q[6]); tri(q[2],q[4],q[6]); } } }
       else if(p.t==='circle'){ g(0,'CIRCLE');g(8,p.layer);g(10,X(p.cx));g(20,Y(p.cy));g(30,0);g(40,p.r); }
+      else if(p.t==='svg'){ const t='הדמיית שיטת ההתקנה – ראה קובץ ה-PDF'; g(0,'TEXT');g(8,'TEXT');g(7,'TIKHEB');g(10,X(p.x+p.w/2));g(20,Y(p.y+p.h/2));g(30,0);g(40,(14*0.72).toFixed(2));g(1,u(t));g(72,1);g(11,X(p.x+p.w/2));g(21,Y(p.y+p.h/2));g(31,0); }
       else if(p.t==='text'){ const h=(p.s*0.72).toFixed(2), al=p.a==='r'?2:p.a==='c'?1:0;
         g(0,'TEXT');g(8,p.layer);g(7,'TIKHEB');g(10,X(p.x));g(20,Y(p.y));g(30,0);g(40,h);g(1,u(p.str));
         if(al){ g(72,al); g(11,X(p.x)); g(21,Y(p.y)); g(31,0); } }
