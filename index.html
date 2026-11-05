@@ -287,7 +287,7 @@ html.zw640 #cFeed .g3,html.zw640 #cFeed .g3.g4{grid-template-columns:1fr} html.z
       <button id="btnDoc" type="button" title="ייצוא נתוני הקלט והתוצאות לקובץ Word">ייצוא Word</button>
       <button id="btnPdf" type="button" title="הדפסה או שמירה כ-PDF (בטלפון – יוצר קובץ PDF לשמירה או שיתוף)">הדפסה / PDF</button>
     </div>
-    <div class="hsub"><p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p><div class="app-version">גרסה V23 · עלתה לרשת 30/10/2026<span id="savedInfo"></span></div></div>
+    <div class="hsub"><p>משרד טיקטין · חתך וכמות כבלים, גיד הארקה, מפל מתח וזרם קצר מתפתח בלוח · כבלים רב-גידיים לפי טבלה 90.7, גידים חד-גידיים לפי טבלה 90.8</p><div class="app-version">גרסה V24 · עלתה לרשת 05/11/2026<span id="savedInfo"></span></div></div>
   </div>
 </header>
 
@@ -299,6 +299,7 @@ html.zw640 #cFeed .g3,html.zw640 #cFeed .g3.g4{grid-template-columns:1fr} html.z
     <div class="seg">
       <label title="חיבור מתחנת שנאים של חברת החשמל"><input type="radio" name="src" value="iec" checked>שנאי חח״י</label>
       <label title="חיבור במתח גבוה – שנאים פרטיים של הצרכן"><input type="radio" name="src" value="hv">שנאים פרטיים (מתח גבוה)</label>
+      <label title="גנרטור – לוח חלוקת גנרטור צמוד לגנרטור"><input type="radio" name="src" value="gen">גנרטור</label>
     </div>
 
     <div id="iecBox">
@@ -325,6 +326,18 @@ html.zw640 #cFeed .g3,html.zw640 #cFeed .g3.g4{grid-template-columns:1fr} html.z
           <input type="number" id="hvUk" value="6" min="2" max="10" step="0.5" title="אחוז מתח הקצר של השנאי לפי לוחית היצרן (בדרך כלל 4% או 6%)"></div>
       </div>
       <div class="hint">שנאי יבש (Cast Resin) בדרך כלל uk = 6%; שנאי שמן 4%–6% לפי היצרן – יש לבחור לפי לוחית השנאי.</div>
+    </div>
+
+    <div id="genBox" style="display:none">
+      <div class="row">
+        <div><label>גודל גנרטור [kVA]</label>
+          <select id="genS" title="הספק הגנרטור (Prime) לפי היצרן">
+            <option>100</option><option>150</option><option>200</option><option>250</option><option>300</option><option>400</option><option>500</option><option>630</option><option>800</option><option selected>1000</option><option>1250</option><option>1500</option><option>1600</option><option>2000</option><option>2500</option>
+          </select></div>
+        <div><label>x″d של הגנרטור [%]</label>
+          <input type="number" id="genXd" value="10" min="5" max="25" step="0.5" title="ריאקטנס תת-מעבר (subtransient) מדף היצרן. ללא נתון – 10% (ערך מחמיר, נותן זרם קצר גבוה)"></div>
+      </div>
+      <div class="hint">זרם הקצר של גנרטור אינו מחושב כמו שנאי: הזרם ההתחלתי Ik″ = 1.1 × In ÷ x″d (עשרות מילישניות) קובע את כושר הניתוק של המפסקים; הזרם המתמשך כ-3 × In (בגנרטור עם עירור PMG/AREP) משמש לבדיקת ניתוק ההגנה.</div>
     </div>
 
     <h3>סוג הלוח לבדיקה</h3>
@@ -414,6 +427,20 @@ html.zw640 #cFeed .g3,html.zw640 #cFeed .g3.g4{grid-template-columns:1fr} html.z
       <div id="roBusBox"><label>גדלי פסים זמינים [A]</label><div class="fixed ro sm" id="roBus" title="גדלי פסי הצבירה של היצרן שנבחר, לפי גדלי המשרד">–</div></div>
       <div id="roCabBox" style="display:none"><label>התקנה</label><div class="fixed ro sm" id="roCab" title="אופן ההתקנה בחישוב">–</div></div>
       <div class="hint full">כבלים/גידים: אלומיניום, XLPE 90°C, סולם כבלים בשכבה אחת. כבל רב-גידי לפי טבלה 90.7, גידים חד-גידיים (סט 4×1×300) לפי טבלה 90.8. מספר המקבילים נקבע אוטומטית (המזערי שעומד בקריטריונים, עד 16).</div>
+    </div>
+
+    <!-- לוח חלוקת גנרטור -->
+    <div id="fGen" class="g3" style="display:none">
+      <div><label>הזנה נוספת ללוח</label>
+        <div class="seg">
+          <label><input type="radio" name="genAlt" value="no" checked>מגנרטור בלבד</label>
+          <label title="הלוח מוזן גם מלוח אחר דרך מערכת החלפה"><input type="radio" name="genAlt" value="yes">גם מלוח אחר</label>
+        </div></div>
+      <div id="genAltBox"><label>זרם קצר בלוח מההזנה הנוספת [kA]</label>
+        <input type="number" id="ikAlt" min="0.1" step="0.1" placeholder="לדוגמה 25" title="זרם הקצר בהדקי לוח חלוקת הגנרטור כשהוא מוזן מהלוח האחר (למשל מכפתור 'המשך' בחישוב הלוח המזין)"></div>
+      <div><label>זרם נומינלי גנרטור In</label><div class="fixed ro" id="roGenIn" title="מחושב: S/(√3·400)">–</div></div>
+      <div><label>זרם קצר התחלתי Ik″ מהגנרטור</label><div class="fixed ro" id="roGenIk" title="1.1 × In ÷ x″d">–</div></div>
+      <div class="hint full">לוח חלוקת גנרטור צמוד לגנרטור. אם הלוח מוזן גם מלוח אחר דרך מערכת החלפה – מחושב זרם הקצר משני המקורות והמפסקים נבחרים לפי הגבוה מביניהם.</div>
     </div>
 
     <!-- לוח משני -->
@@ -590,7 +617,12 @@ const BRK_L = 3;
 const brkG = I=>{ const [n,s]=BRK_CAB[I]; return n>1?`${n}(1×${s})`:`1×${s}`; };
 const brkHtml = I=>`<span dir="rtl">פאזה <bdi dir="ltr">${brkG(I)}</bdi> · אפס <bdi dir="ltr">${brkG(I)}</bdi></span>`;
 const SEC_IN   = [25,32,40,50,63,80,100,125,160,200,250,315,400,500,630,800,910];
-const SEC_IN_HV = [...SEC_IN,1000,1250,1600,2000,2500,3200];   // שנאים פרטיים – לוח משני מעל 910A
+const SEC_IN_HV = [...SEC_IN,1000,1250,1600,2000,2500,3200];
+/* גנרטור – זרם קצר התחלתי וכושר ניתוק מפסקים */
+const ICU_STD=[6,10,16,25,36,50,65,70,85,100,120,150];
+function genCalc(S,xd){ const In=S*1000/(Math.sqrt(3)*U); const ik=1.1*In/xd/1000; return {In, ik, ip:2.6*ik, sus:3*In/1000}; }
+function icmFactor(icu){ return icu<=6?1.5:icu<=10?1.7:icu<=20?2.0:icu<=50?2.1:2.2; }   // IEC 60947-2 – יחס Icm/Icu מזערי
+function icuFor(ik,ip){ for(const v of ICU_STD) if(v>=ik-1e-9 && v*icmFactor(v)>=ip-1e-9) return v; return null; }   // שנאים פרטיים – לוח משני מעל 910A
 
 function stdUp(v){ for(const s of STD) if(s>=v-1e-9) return s; return Math.ceil(v); }  // מעל 2000 – ללא עיגול לחתך תקני
 function sinOf(c){ return Math.sqrt(1-c*c); }
@@ -977,6 +1009,7 @@ function uiState(){
   if(val('src')!=='iec' && val('board')==='brk') document.querySelector('input[name=board][value=main]').checked=true;
   if(val('src')==='iec' && val('board')==='main') document.querySelector('input[name=board][value=brk]').checked=true;
   $('lblMainOpt').style.display=val('src')==='iec'?'none':'';
+  $('genBox').style.display=val('src')==='gen'?'':'none';
   const src=val('src'), board=val('board'), brk=board==='brk';
   $('lblBrk').style.display=src==='iec'?'':'none';
   { const sel=$('conn'), mode=brk?'brk':'main';
@@ -987,15 +1020,18 @@ function uiState(){
   document.querySelectorAll('.mbOnly').forEach(e=>e.style.display=brk?'none':'');
   $('matMbBox').style.display=brk?'none':'';
   if(brk) $('roBrkCab').innerHTML=brkHtml(+$('conn').value);
-  { const sel=$('secIn'), mode=src==='hv'?'hv':'iec';
+  { const sel=$('secIn'), mode=src==='iec'?'iec':'hv';
     if(sel.dataset.mode!==mode){ const cur=+sel.value||100, list=mode==='hv'?SEC_IN_HV:SEC_IN;
       sel.innerHTML=list.map(a=>`<option value="${a}">3X${a}</option>`).join(''); sel.dataset.mode=mode;
       sel.value = list.includes(cur)?cur:list[list.length-1]; } }
   $('iecBox').style.display=src==='iec'?'':'none';
   $('hvBox').style.display=src==='hv'?'':'none';
-  $('lblMain').textContent=src==='iec'?'לוח ראשי אחרי מונה':'לוח ראשי – הזנה משנאי';
+  $('lblMain').textContent=src==='iec'?'לוח ראשי אחרי מונה':(src==='gen'?'לוח חלוקת גנרטור (צמוד לגנרטור)':'לוח ראשי – הזנה משנאי');
   $('fIec').style.display=(src==='iec'&&(board==='main'||brk))?'':'none';
   $('fHv').style.display=(src==='hv'&&board==='main')?'':'none';
+  $('fGen').style.display=(src==='gen'&&board==='main')?'':'none';
+  $('genAltBox').style.visibility=val('genAlt')==='yes'?'visible':'hidden';
+  { const gc=genCalc(+$('genS').value,(num('genXd')||10)/100); $('roGenIn').innerHTML=N(f(gc.In,0)+' A'); $('roGenIk').innerHTML=N(f(gc.ik,1)+' kA'); }
   $('fSec').style.display=board==='sec'?'':'none';
   { const fd=val('hvFeed'), isB=fd==='bus', isS=fd==='s300';
     $('busBox').style.visibility=(isB||isS)?'visible':'hidden';
@@ -1010,13 +1046,16 @@ function uiState(){
   { const n=$('secNote');
     if(board==='sec'){
       n.style.display='';
-      n.innerHTML = src==='iec'
+      n.innerHTML = src==='gen'
+        ? '<b>לוח משני – גנרטור:</b> גודל הגנרטור ו-x″d אינם משמשים כאן. זרם הקצר בלוח המזין מוזן בתא 2 (או מכפתור "המשך" בחישוב לוח חלוקת הגנרטור).'
+        : src==='iec'
         ? '<b>לוח משני – חח״י:</b> גודל שנאי חח״י אינו משמש כאן. זרם הקצר בלוח המזין מוזן בתא 2 (או מכפתור "המשך" בחישוב הלוח הראשי).'
         : '<b>לוח משני – מתח גבוה:</b> גודל השנאי ו-uk אינם משמשים כאן. זרם הקצר בלוח המזין מוזן בתא 2 (או מכפתור "המשך" בחישוב הלוח הראשי).';
     } else n.style.display='none'; }
   $('boardHint').textContent = board==='sec'
     ? 'לוח משני: הזנה מלוח מזין – חתך וכמות כבלים, הארקה, מפל מתח וזרם קצר צפוי בלוח המוזן.'
     : brk ? 'לוח ראשי / מפסק ראשי צמוד למונה חח״י: זרם קצר לפי שנאי חח״י, כבלי חח״י מהתחנה (או לפילר) וכבלי נחושת מהמונה למפסק לפי טבלת חברת חשמל מארון מדידה לצרכן, אורך עד 3 מ׳.'
+    : src==='gen' ? 'לוח חלוקת גנרטור: זרם קצר התחלתי מהגנרטור (ובמערכת החלפה – הגבוה משני המקורות) וכושר הניתוק הנדרש למפסקים בלוח.'
     : (src==='iec' ? 'לוח ראשי אחרי מונה: זרם קצר בלוח לפי שנאי חח״י וכבלי חח״י עד המונה.'
                    : 'לוח ראשי: הזנה מהשנאי הפרטי ללוח הראשי בלבד – פסי צבירה או כבלים/גידים אלומיניום.');
   { const pil=val('mfrom')==='pillar';
@@ -1205,6 +1244,36 @@ function calc(){
     if(Lmb&&mb&&!mb.fail) h+=`<div class="note info keep">מפל מתח כולל מהתחנה ללוח הראשי: ${N(pct(r.vd+mb.vd,2))}</div>`;
     }
   }
+  else if(src==='gen'){ // לוח חלוקת גנרטור
+    const S=+$('genS').value, xd=(num('genXd')||10)/100, gc=genCalc(S,xd);
+    const alt=val('genAlt')==='yes', ikA=alt?num('ikAlt'):null;
+    if(alt && !ikA){ $('resBody').innerHTML='<div class="note warn keep">יש להזין את זרם הקצר בלוח מההזנה הנוספת.</div>'; return; }
+    const ikMax=Math.max(gc.ik, ikA||0), ipMax=2.6*ikMax, icu=icuFor(ikMax,ipMax), byAlt=alt && ikA>gc.ik;
+    ikBoard=ikMax;
+    h+=`<h3>לוח חלוקת גנרטור – גנרטור ${S} kVA</h3>
+    <div class="result-top">
+      ${kpi('כושר ניתוק נדרש למפסקים (Icu)', N(icu?icu+' kA':'מעל 150 kA'),`לפי זרם קצר ${N(f(ikMax,1)+' kA')} ${byAlt?'מההזנה הנוספת':'מהגנרטור'}`,'main')}
+      ${kpi('זרם קצר התחלתי Ik″ מהגנרטור',N(f(gc.ik,1)+' kA'),`1.1 × In ÷ x″d · x″d = ${N(f(xd*100,1)+'%')}`)}
+      ${alt?kpi('זרם קצר מההזנה הנוספת',N(f(ikA,1)+' kA'),'דרך מערכת ההחלפה'):kpi('זרם נומינלי גנרטור',N(f(gc.In,0)+' A'),`${N(S+' kVA')} · 400 V`)}
+      ${kpi('זרם קצר מתמשך (לבדיקת ניתוק ההגנה)',N(f(gc.sus,1)+' kA'),'כ-3 × In – בגנרטור עם עירור PMG/AREP')}
+    </div>
+    ${byAlt?'<div class="note warn keep">זרם הקצר מההזנה הנוספת גבוה מזרם הקצר של הגנרטור – המפסקים בלוח נבחרו לפי ההזנה הנוספת.</div>':''}
+    <div class="note info keep">הזרם המתמשך של כ-3 × In למשך עד 10 שניות מתקיים רק בגנרטור עם עירור PMG / AREP – יש לוודא מול ספק הגנרטור. ללא עירור כזה הזרם עלול לקרוס וההגנה לא תנתק.</div>
+    <details open><summary>פירוט חישוב</summary>${rows([
+      ['In גנרטור = S/(√3·400)',N(f(gc.In,0)+' A')],
+      ['זרם קצר התחלתי Ik″ = 1.1 × In ÷ x″d',N(f(gc.ik,2)+' kA')+' (x″d = '+N(f(xd*100,1)+'%')+(num('genXd')?'':' – ברירת מחדל מחמירה')+')'],
+      ['זרם שיא ip ≈ 2.6 × Ik″ (κ ≈ 1.84, יחס R/X נמוך)',N(f(gc.ip,1)+' kA')],
+      ...(alt?[['זרם קצר מההזנה הנוספת (מערכת החלפה)',N(f(ikA,2)+' kA')]]:[]),
+      ['זרם קצר לבחירת המפסקים = הגבוה מבין המקורות',N(f(ikMax,2)+' kA')],
+      ['כושר ניתוק Icu ≥ Ik, כושר סגירה Icm = n × Icu ≥ ip (IEC 60947-2)',icu?N(icu+' kA')+' · Icm = '+N(f(icu*icmFactor(icu),1)+' kA')+' ≥ '+N(f(ipMax,1)+' kA'):'מעל 150 kA'],
+      ['זרם קצר מתמשך ≈ 3 × In (עירור PMG/AREP)',N(f(gc.sus,2)+' kA')+' – לבדיקת ניתוק ההגנה ולסלקטיביות']
+    ])}</details>`;
+    window.SLD={title:`לוח חלוקת גנרטור – גנרטור ${S} kVA`, file:`גנרטור ${S}kVA`, sub:alt?'לוח חלוקת גנרטור צמוד לגנרטור · מוזן גם מלוח אחר דרך מערכת החלפה':'לוח חלוקת גנרטור צמוד לגנרטור', chain:[
+      {node:{type:'gen',name:'גנרטור',lines:[{t:`הספק: ${S} kVA`,b:true},`ריאקטנס תת-ארעי: ${f(xd*100,1)}%`,`זרם נומינלי: ${f(gc.In,0)} A`,`זרם קצר התחלתי: ${f(gc.ik,1)} kA`,`זרם קצר מתמשך: ${f(gc.sus,1)} kA`]}},
+      {seg:{kind:'link',lines:['צמוד לגנרטור']}},
+      {node:{type:'board',name:'לוח חלוקת גנרטור',brk:'מפסק ראשי',lines:[{t:`זרם קצר לבחירת מפסקים: ${f(ikMax,1)} kA`,b:true},...(alt?[`מההזנה הנוספת: ${f(ikA,1)} kA (מערכת החלפה)`]:[]),{t:`כושר ניתוק נדרש: ${icu?icu+' kA':'מעל 150 kA'}`,b:true}]}}],
+      notes:['זרם קצר התחלתי של גנרטור = 1.1 × זרם נומינלי ÷ ריאקטנס תת-ארעי; זרם שיא ≈ 2.6 × הזרם ההתחלתי; לפיהם נבחר כושר הניתוק.','זרם קצר מתמשך של פי 3 מהזרם הנומינלי קיים רק בגנרטור עם עירור קבוע (PMG / AREP) – לוודא מול הספק.','הכלי הוא עזר תכנון ואינו מחליף בדיקת מתכנן חשמל מוסמך.']};
+  }
   else { // שנאי פרטי → לוח ראשי
     const S=+$('hvS').value, uk=(num('hvUk')||6)/100, L=num('Lhv'), feed=val('hvFeed');
     if(!L){ $('resBody').innerHTML='<div class="note warn keep">יש להזין אורך הזנה.</div>'; return; }
@@ -1343,6 +1412,7 @@ $('iecTr').addEventListener('change',()=>{ const is=$('iecTr').value==='630'; if
 $('ok630').addEventListener('click',()=>{ confirmed630=true; $('w630').style.display='none'; calc(); });
 $('cancel630').addEventListener('click',()=>{ confirmed630=false; $('iecTr').value='1000'; $('w630').style.display='none'; calc(); });
 function curInstKind(){ const b=val('board'),s=val('src');
+  if(s==='gen'&&b==='main') return null;
   if(s==='hv'&&b==='main') return val('hvFeed')==='s300'?'single':(val('hvFeed')==='bus'?null:'ladder');
   const sx=b==='sec'?'Sec':'Mb', i=instSel(sx);
   if(b==='brk') return 'tray';
@@ -1402,7 +1472,7 @@ function applyState(st){
 }
 function saveName(){
   const b=val('board'), s=val('src');
-  const what = b==='sec' ? `לוח משני 3X${$('secIn').value}` : b==='brk' ? `מפסק ראשי 3X${$('conn').value}` : (s==='iec' ? `לוח ראשי 3X${$('conn').value}` : `שנאי ${$('hvS').value}kVA`);
+  const what = b==='sec' ? `לוח משני 3X${$('secIn').value}` : b==='brk' ? `מפסק ראשי 3X${$('conn').value}` : s==='gen' ? `לוח גנרטור ${$('genS').value}kVA` : (s==='iec' ? `לוח ראשי 3X${$('conn').value}` : `שנאי ${$('hvS').value}kVA`);
   const d=new Date(), dd=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   return `חישוב כבלים וזרם קצר - ${what} - ${dd}.html`;
 }
@@ -1628,7 +1698,7 @@ calc();
   const LOGO = (document.querySelector('header img')||{}).src || '';
   const CX = 330;                       // ציר הקו
   const NODE = {                        // רוחב/גובה סמלים – לוח ראשי הגדול ביותר
-    trafo:{w:170,h:92}, pillar:{w:140,h:76}, meter:{w:170,h:70}, board:{w:250,h:76}, sec:{w:210,h:70}, srcboard:{w:190,h:62}
+    trafo:{w:170,h:92}, gen:{w:120,h:92}, pillar:{w:140,h:76}, meter:{w:170,h:70}, board:{w:250,h:76}, sec:{w:210,h:70}, srcboard:{w:190,h:62}
   };
   const SEG_H = {cable:190, link:56, bus:190};
   const TS = 15, LH = 21;               // גובה טקסט ומרווח שורות
@@ -1670,6 +1740,7 @@ calc();
         R(x0,p.y0,g.w,g.h,{fill:'#fff'});
         // סמלים פנימיים
         if(n.type==='trafo'){ const cy=p.y0+g.h/2; C(CX-15,cy,24,{w:2.2}); C(CX+15,cy,24,{w:2.2}); }
+        if(n.type==='gen'){ const cy=p.y0+g.h/2; C(CX,cy,30,{w:2.2}); T(CX,cy+10,'G',{s:28,b:true,a:'c',layer:'BOARD'}); }
         if(n.type==='meter'){ // מונה – מלבן מונה עם פס עליון ו-kWh, בתוך ארון המדידה
           const mw=56, mh=44, mx=CX-mw/2, my=p.y0+(g.h-mh)/2; R(mx,my,mw,mh,{w:1.8}); L(mx,my+11,mx+mw,my+11,{layer:'BOARD',w:1.4}); T(CX,my+33,'kWh',{s:13,b:true,a:'c',layer:'BOARD'}); }
         if(n.type==='pillar'){ // פילר חח״י – מלבן עם חץ ברק גדול
